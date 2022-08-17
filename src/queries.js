@@ -11,11 +11,11 @@ const db = new Pool({
 
 const registerUser = (request, response) => {
   try {
-    const { name, email, password, phoneNumber } = request.body
-    console.log('valores registerUser:', { name, email, password, phoneNumber });
+    const { fullName, email, phoneNumber, birthDate, pass } = request.body
+    console.log('valores registerUser:', { fullName, email, phoneNumber, birthDate, pass });
 
-    db.query('INSERT INTO user ( fullName, email, phoneNumber, birthDate, pass ) values ($1, $2, $3, $4, $5)',
-      [email, password, name, phoneNumber], (error, results) => {
+    db.query('INSERT INTO person ( fullName, email, phoneNumber, birthDate, pass ) values ($1, $2, $3, $4, $5)',
+      [fullName, email, phoneNumber, birthDate, pass], (error, results) => {
         response.status(201).send('Usuário adicionado')
       }
     )
