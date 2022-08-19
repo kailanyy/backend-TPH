@@ -27,6 +27,10 @@ app.post('/registerUser', routes.registerUser)
 app.post('/registerWorker', routes.registerWorker)
 
 app.get('/services', routes.getServices)
+app.get('/workers', routes.getWorkers)
+app.get('/workers/:id', routes.getWorkerById)
+
+app.delete('/workers/:id', routes.deleteWorkerService)
 
 app.listen(3001, () => {
   console.log("API REST rodando em http://localhost:3001")

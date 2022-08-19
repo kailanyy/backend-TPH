@@ -62,9 +62,57 @@ const getServices = (request, response) => {
     })
 }
 
+const getWorkers = (request, response) => {
+  db.query('SELECT * FROM worker',
+    (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
+const getWorkerById = (request, response) => {
+  const id = parseInt(request.params.id)
+
+  db.query('select * from worker where idperson = $1',
+    [id], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
+const deleteWorkerService = (request, response) => {
+  try {
+    const idPerson = parseInt(request.params.id)
+    const { idService } = request.body
+    console.log('valores deleteWorkerService:', { idPerson, idService });
+    console.log('request body', request.body)
+
+    db.query('DELETE FROM worker WHERE idPerson = $1 and idService = $2',
+      [idPerson, idService], (error, results) => {
+        console.log('Error', error);
+        response.status(201).send('Serviço removido com sucesso!')
+      }
+    )
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao remover serviço. ' + error
+    })
+  }
+}
+
 
 module.exports = {
   registerUser,
   registerWorker,
-  getServices
+  getServices,
+  getWorkers,
+  getWorkerById,
+  deleteWorkerService
 }
