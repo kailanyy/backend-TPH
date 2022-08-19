@@ -24,6 +24,9 @@ app.post('/', (request, response) => {
 })
 
 app.post('/registerUser', routes.registerUser)
+app.post('/registerWorker', routes.registerWorker)
+
+app.get('/services', routes.getServices)
 
 app.listen(3001, () => {
   console.log("API REST rodando em http://localhost:3001")
