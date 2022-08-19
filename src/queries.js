@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'yasmin',
+  password: '123',
   port: 5432
 })
 
@@ -17,7 +17,7 @@ const registerUser = (request, response) => {
     db.query('INSERT INTO person ( fullName, email, phoneNumber, birthDate, pass ) values ($1, $2, $3, $4, $5)',
       [fullName, email, phoneNumber, birthDate, password], (error, results) => {
         console.log('error', error);
-        console.log('response',response);
+        console.log('response', response);
         response.status(201).send('Usuário adicionado')
       }
     )
@@ -26,6 +26,30 @@ const registerUser = (request, response) => {
     response.status(400).send({
       status: 400,
       message: 'Erro ao adicionar usuário. ' + error
+    })
+  }
+}
+
+const authenticate = (request, response) => {
+  try {
+    const { email, password } = request.body
+    console.log('valores authenticate:', { email, password });
+
+    db.query('SELECT * FROM person WHERE email = $1 AND pass = $2',
+      [email, password], (error, results) => {
+        console.log('error:', error, 'results:', results);
+        if (error || results.rowCount === 0) {
+          return response.status(401).send({
+            status: 401,
+            message: 'Erro ao autenticar o usuário. ' + error
+          })
+        } response.status(200).send({ user: results.rows[0] })
+      })
+  } catch (error) {
+    console.log('Erro @ authenticate: ' + error);
+    response.status(500).send({
+      status: 500,
+      message: 'Erro ao autenticar o usuário. ' + error
     })
   }
 }
@@ -110,6 +134,7 @@ const deleteWorkerService = (request, response) => {
 
 module.exports = {
   registerUser,
+  authenticate,
   registerWorker,
   getServices,
   getWorkers,

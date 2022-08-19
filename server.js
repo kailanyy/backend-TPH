@@ -25,6 +25,7 @@ app.post('/', (request, response) => {
 
 app.post('/registerUser', routes.registerUser)
 app.post('/registerWorker', routes.registerWorker)
+app.post('/login', routes.authenticate)
 
 app.get('/services', routes.getServices)
 app.get('/workers', routes.getWorkers)
