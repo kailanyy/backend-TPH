@@ -23,6 +23,8 @@ app.post('/', (request, response) => {
   request.status(200)
 })
 
+app.put('/users/:id', routes.updateUser)
+
 app.post('/registerUser', routes.registerUser)
 app.post('/registerWorker', routes.registerWorker)
 app.post('/login', routes.authenticate)
