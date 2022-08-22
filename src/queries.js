@@ -132,27 +132,51 @@ const deleteWorkerService = (request, response) => {
 }
 
 const updateUser = (request, response) => {
- try{
-  const idPerson = parseInt(request.params.id)
-  const {email, password, phoneNumber} = request.body
-  console.log('valores updateUser: ', {email, password, phoneNumber})
+  try {
+    const idPerson = parseInt(request.params.id)
+    const { email, password, phoneNumber } = request.body
+    console.log('valores updateUser: ', { email, password, phoneNumber })
 
-  db.query('UPDATE person SET email = $1, pass = $2, phoneNumber =  $3 WHERE idperson = $4',
-  [email, password, phoneNumber, idPerson],
-  (error, results) => {
-    if (error) {
+    db.query('UPDATE person SET email = $1, pass = $2, phoneNumber =  $3 WHERE idperson = $4',
+      [email, password, phoneNumber, idPerson],
+      (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.status(201).send('Usuario atualizado')
+      })
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao atualizar o registro. ' + error
+    })
+  }
+}
+
+const getServicesFromUser = (request, response) => {
+  const idperson = parseInt(request.params.id)
+  console.log('request.params', request.params);
+  console.log('getServicesFromUser', idperson, request);
+  db.query(`SELECT 
+              worker.idworker,
+              person.idperson,
+              titleservice
+            FROM worker
+            INNER JOIN person
+            ON worker.idperson = person.idperson
+            INNER JOIN service
+            ON service.idservice = worker.idservice
+            WHERE worker.idperson = $1`,
+    [idperson], (error, results) => {
+      console.log('results', results);
+      if (error) {
         throw error
-    }
-  response.status(201).send('Usuario atualizado')
-  })
- } catch  (error) {
-  console.log('Erro: ' + error);
-  response.status(400).send({
-    status: 400,
-    message: 'Erro ao atualizar o registro. ' + error
-  })
+      }
+      response.status(200).json(results.rows)
+    })
 }
-}
+
 
 
 module.exports = {
@@ -163,5 +187,6 @@ module.exports = {
   getWorkers,
   getWorkerById,
   deleteWorkerService,
-  updateUser
+  updateUser,
+  getServicesFromUser
 }

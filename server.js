@@ -32,6 +32,7 @@ app.post('/login', routes.authenticate)
 app.get('/services', routes.getServices)
 app.get('/workers', routes.getWorkers)
 app.get('/workers/:id', routes.getWorkerById)
+app.get('/getServicesFromUser/:id', routes.getServicesFromUser)
 
 app.delete('/workers/:id', routes.deleteWorkerService)
 
