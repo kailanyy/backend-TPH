@@ -9,8 +9,7 @@ CREATE TABLE person (
 
 CREATE TABLE service(
   idService SERIAL PRIMARY KEY,
-  titleService VARCHAR(25),
-  icon VARCHAR(300)
+  titleService VARCHAR(25)
 );
 
 CREATE TABLE worker(
@@ -25,3 +24,11 @@ CREATE TABLE worker(
   FOREIGN KEY (idPerson) REFERENCES person (idPerson),
   FOREIGN KEY (idService) REFERENCES service (idService)
 );
+
+insert into service(titleservice) values('Eletricista');
+insert into service(titleservice) values('Jardinagem');
+insert into service(titleservice) values('Estética');
+insert into service(titleservice) values('Cozinheiro'); 
+insert into service(titleservice) values('Marceneiro');
+insert into service(titleservice) values('Babá'); 
+insert into service(titleservice) values('Diarista');
