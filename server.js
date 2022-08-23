@@ -28,6 +28,7 @@ app.put('/users/:id', routes.updateUser)
 app.post('/registerUser', routes.registerUser)
 app.post('/registerWorker', routes.registerWorker)
 app.post('/login', routes.authenticate)
+app.post('/reviews', routes.registerReview)
 
 app.get('/services', routes.getServices)
 app.get('/workers', routes.getWorkers)
@@ -36,6 +37,7 @@ app.get('/getServicesFromUser/:id', routes.getServicesFromUser)
 app.get('/getWorkersByServiceId', routes.getWorkersByServiceId)
 
 app.delete('/workers/:id', routes.deleteWorkerService)
+app.delete('/users/:id', routes.deleteUser)
 
 app.listen(3001, () => {
   console.log("API REST rodando em http://localhost:3001")

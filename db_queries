@@ -26,6 +26,16 @@ CREATE TABLE worker(
   FOREIGN KEY (idService) REFERENCES service (idService)
 );
 
+CREATE TABLE review(
+  idReview SERIAL PRIMARY KEY,
+  idPerson INT NOT NULL,
+  idWorker INT NOT NULL,
+  messageReview VARCHAR(245),
+  stars CHAR(1),
+  FOREIGN KEY (idPerson) REFERENCES person (idPerson),
+  FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
+);
+
 insert into service(titleservice, icon) values('Eletricista', 'https://cdn-icons-png.flaticon.com/512/320/320345.png');
 insert into service(titleservice, icon) values('Jardinagem', 'https://cdn-icons-png.flaticon.com/512/2592/2592037.png');
 insert into service(titleservice, icon) values('Estética', 'https://cdn-icons-png.flaticon.com/512/3501/3501241.png');

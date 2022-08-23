@@ -156,6 +156,31 @@ const updateUser = (request, response) => {
   }
 }
 
+const deleteUser = (request, response) => {
+  try {
+    const idPerson = parseInt(request.params.id)
+
+    if (!isNaN(idPerson)) {
+      db.query('delete from person where idperson = $1', [idPerson],
+        (error, results) => {
+          if (error) {
+            throw error
+          } response.status(201).send('Usuário deletado')
+        })
+
+    } else {
+      throw Error('Erro ao deletar o usuário. ID não existe')
+
+    }
+  } catch (error) {
+    console.log(error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao deletar o usuário.' + error
+    })
+  }
+}
+
 const getServicesFromUser = (request, response) => {
   const idperson = parseInt(request.params.id)
   console.log('request.params', request.params);
@@ -205,6 +230,26 @@ const getWorkersByServiceId = (request, response) => {
     })
 }
 
+const registerReview = (request, response) => {
+  try {
+    const { idPerson, idWorker, messageReview, stars } = request.body
+    console.log('valores registerWorker:', { idPerson, idWorker, messageReview, stars });
+
+    db.query('INSERT INTO review ( idPerson, idWorker, messageReview, stars ) values ($1, $2, $3, $4)',
+      [idPerson, idWorker, messageReview, stars], (error, results) => {
+        console.log('Error', error);
+        response.status(201).send('Avaliação feita :))))))')
+      }
+    )
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(500).send({
+      status: 500,
+      message: 'Erro ao adicionar avaliação. ' + error
+    })
+  }
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -215,5 +260,7 @@ module.exports = {
   deleteWorkerService,
   updateUser,
   getServicesFromUser,
-  getWorkersByServiceId
+  getWorkersByServiceId,
+  registerReview,
+  deleteUser
 }
