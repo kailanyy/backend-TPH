@@ -87,7 +87,9 @@ const getServices = (request, response) => {
 }
 
 const getWorkers = (request, response) => {
-  db.query('SELECT * FROM worker',
+  db.query(`SELECT * FROM worker
+            INNER JOIN person
+            on person.idperson = worker.idperson`,
     (error, results) => {
       console.log('results', results);
       if (error) {
