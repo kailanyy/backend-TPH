@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: '123',
+  password: 'senai',
   port: 5432
 })
 
@@ -178,35 +178,32 @@ const getServicesFromUser = (request, response) => {
     })
 }
 
-// const getServicesFromUser = (request, response) => {
-//   const idperson = parseInt(request.params.id)
-//   console.log('request.params',request.params);
-//   console.log('getServicesFromUser', idperson, request);
-//   db.query(`SELECT 
-//               worker.idworker,
-//               person.fullname,
-//               phoneNumber,
-//               descriptionService,
-//               priceService,
-//               city,
-//               localization,
-//               whatsapp,
-//               titleservice,
-//               email
-//             FROM worker
-//             INNER JOIN person
-//             ON worker.idperson = person.idperson
-//             INNER JOIN service
-//             ON service.idservice = worker.idservice
-//             WHERE worker.idperson = $1`,
-//     [idperson], (error, results) => {
-//       console.log('results', results);
-//       if (error) {
-//         throw error
-//       }
-//       response.status(200).json(results.rows)
-//     })
-// }
+const getWorkersByServiceId = (request, response) => {
+  const { idService } = request.query
+  console.log('getWorkersByServiceId', getWorkersByServiceId);
+  db.query(`SELECT 
+        idWorker, 
+        worker.idPerson,
+        person.idPerson,
+        person.fullname,
+        worker.idService,
+        service.titleService
+        FROM worker
+        INNER JOIN
+        service
+        ON service.idService = worker.idService
+        INNER JOIN 
+        person 
+        ON person.idPerson = worker.idPerson 
+        WHERE worker.idService = $1`,
+      [idService], (error, results) => {
+      console.log('results@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
 
 module.exports = {
   registerUser,
@@ -217,5 +214,6 @@ module.exports = {
   getWorkerById,
   deleteWorkerService,
   updateUser,
-  getServicesFromUser
+  getServicesFromUser,
+  getWorkersByServiceId
 }

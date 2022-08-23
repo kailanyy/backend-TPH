@@ -9,7 +9,8 @@ CREATE TABLE person (
 
 CREATE TABLE service(
   idService SERIAL PRIMARY KEY,
-  titleService VARCHAR(25)
+  titleService VARCHAR(25),
+  icon VARCHAR(300)
 );
 
 CREATE TABLE worker(
@@ -25,10 +26,11 @@ CREATE TABLE worker(
   FOREIGN KEY (idService) REFERENCES service (idService)
 );
 
-insert into service(titleservice) values('Eletricista');
-insert into service(titleservice) values('Jardinagem');
-insert into service(titleservice) values('Estética');
-insert into service(titleservice) values('Cozinheiro'); 
-insert into service(titleservice) values('Marceneiro');
-insert into service(titleservice) values('Babá'); 
-insert into service(titleservice) values('Diarista');
+insert into service(titleservice, icon) values('Eletricista', 'https://cdn-icons-png.flaticon.com/512/320/320345.png');
+insert into service(titleservice, icon) values('Jardinagem', 'https://cdn-icons-png.flaticon.com/512/2592/2592037.png');
+insert into service(titleservice, icon) values('Estética', 'https://cdn-icons-png.flaticon.com/512/3501/3501241.png');
+insert into service(titleservice, icon) values('Cozinheiro', 'https://cdn-icons-png.flaticon.com/512/1772/1772585.png'); 
+insert into service(titleservice, icon) values('Marceneiro', 'https://cdn-icons-png.flaticon.com/512/3728/3728872.png');
+insert into service(titleservice, icon) values('Babá', 'https://cdn-icons-png.flaticon.com/512/8035/8035520.png'); 
+insert into service(titleservice, icon) values('Diarista', 'https://cdn-icons-png.flaticon.com/512/1587/1587874.png');
+insert into service(titleservice, icon) values('Fisioterapeuta', 'https://cdn-icons-png.flaticon.com/512/2959/2959945.png');
