@@ -136,11 +136,11 @@ const deleteWorkerService = (request, response) => {
 const updateUser = (request, response) => {
   try {
     const idPerson = parseInt(request.params.id)
-    const { email, password, phoneNumber } = request.body
-    console.log('valores updateUser: ', { email, password, phoneNumber })
+    const { email, password } = request.body
+    console.log('valores updateUser: ', { email, password})
 
-    db.query('UPDATE person SET email = $1, pass = $2, phoneNumber =  $3 WHERE idperson = $4',
-      [email, password, phoneNumber, idPerson],
+    db.query('UPDATE person SET email = $1, pass = $2 WHERE idperson = $3',
+      [email, password, idPerson],
       (error, results) => {
         if (error) {
           throw error
