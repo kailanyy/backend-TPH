@@ -5,15 +5,13 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'senai',
+  password: '123',
   port: 5432
 })
 
 const registerUser = (request, response) => {
   try {
     const { fullName, email, phoneNumber, birthDate, password } = request.body
-    console.log('valores registerUser:', { fullName, email, phoneNumber, birthDate, password });
-
     db.query('INSERT INTO person ( fullName, email, phoneNumber, birthDate, pass ) values ($1, $2, $3, $4, $5)',
       [fullName, email, phoneNumber, birthDate, password], (error, results) => {
         console.log('error', error);
@@ -33,8 +31,6 @@ const registerUser = (request, response) => {
 const authenticate = (request, response) => {
   try {
     const { email, password } = request.body
-    console.log('valores authenticate:', { email, password });
-
     db.query('SELECT * FROM person WHERE email = $1 AND pass = $2',
       [email, password], (error, results) => {
         console.log('error:', error, 'results:', results);
@@ -57,8 +53,6 @@ const authenticate = (request, response) => {
 const registerWorker = (request, response) => {
   try {
     const { idPerson, idService, descriptionService, priceService, city, localization, whatsapp } = request.body
-    console.log('valores registerWorker:', { idPerson, idService, descriptionService, priceService, city, localization, whatsapp });
-
     db.query('INSERT INTO worker ( idPerson, idService, descriptionService, priceService, city, localization, whatsapp ) values ($1, $2, $3, $4, $5, $6, $7)',
       [idPerson, idService, descriptionService, priceService, city, localization, whatsapp], (error, results) => {
         console.log('Error', error);
@@ -75,7 +69,6 @@ const registerWorker = (request, response) => {
 }
 
 const getServices = (request, response) => {
-  console.log('getServices');
   db.query('SELECT * FROM service',
     (error, results) => {
       console.log('results', results);
@@ -101,7 +94,6 @@ const getWorkers = (request, response) => {
 
 const getWorkerById = (request, response) => {
   const id = parseInt(request.params.id)
-
   db.query('select * from worker where idperson = $1',
     [id], (error, results) => {
       if (error) {
@@ -115,9 +107,6 @@ const deleteWorkerService = (request, response) => {
   try {
     const idPerson = parseInt(request.params.id)
     const { idService } = request.body
-    console.log('valores deleteWorkerService:', { idPerson, idService });
-    console.log('request body', request.body)
-
     db.query('DELETE FROM worker WHERE idPerson = $1 and idService = $2',
       [idPerson, idService], (error, results) => {
         console.log('Error', error);
@@ -137,8 +126,6 @@ const updateUser = (request, response) => {
   try {
     const idPerson = parseInt(request.params.id)
     const { email, password, phoneNumber } = request.body
-    console.log('valores updateUser: ', { email, password, phoneNumber })
-
     db.query('UPDATE person SET email = $1, pass = $2, phoneNumber =  $3 WHERE idperson = $4',
       [email, password, phoneNumber, idPerson],
       (error, results) => {
@@ -203,31 +190,32 @@ const getServicesFromUser = (request, response) => {
     })
 }
 
-const getWorkersByServiceId = (request, response) => {
-  const { idService } = request.query
-  console.log('getWorkersByServiceId', getWorkersByServiceId);
-  db.query(`SELECT 
-        idWorker, 
-        worker.idPerson,
-        person.idPerson,
-        person.fullname,
-        worker.idService,
-        service.titleService
-        FROM worker
-        INNER JOIN
-        service
-        ON service.idService = worker.idService
-        INNER JOIN 
-        person 
-        ON person.idPerson = worker.idPerson 
-        WHERE worker.idService = $1`,
-      [idService], (error, results) => {
-      console.log('results@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', results);
-      if (error) {
-        throw error
+const workersByCategory = (request, response) => {
+  try {
+    const id = parseInt(request.params.id)
+    db.query(`SELECT 
+                idworker, 
+                worker.idService,
+                fullname
+                FROM worker
+                INNER JOIN
+                service
+                ON service.idService = worker.idService
+                INNER JOIN person
+                ON worker.idperson = person.idperson
+                WHERE worker.idService = $1`,
+      [id], (error, results) => {
+        console.log('Error', error);
+        response.status(201).send(results.rows)
       }
-      response.status(200).json(results.rows)
+    )
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(400).send({
+      status: 400,
+      message: 'Error' + error
     })
+  }
 }
 
 const registerReview = (request, response) => {
@@ -260,7 +248,7 @@ module.exports = {
   deleteWorkerService,
   updateUser,
   getServicesFromUser,
-  getWorkersByServiceId,
+  workersByCategory,
   registerReview,
   deleteUser
 }
