@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: '123',
+  password: 'senai',
   port: 5432
 })
 
@@ -267,6 +267,17 @@ const getWorkersReviewed = (request, response) => {
     })
 }
 
+const getEmail = (request, response) => {
+  db.query('SELECT email FROM person',
+    (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -280,5 +291,6 @@ module.exports = {
   workersByCategory,
   registerReview,
   deleteUser,
-  getWorkersReviewed
+  getWorkersReviewed,
+  getEmail
 }
