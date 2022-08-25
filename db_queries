@@ -17,6 +17,7 @@ CREATE TABLE worker(
   idWorker SERIAL PRIMARY KEY,
   idPerson INT NOT NULL,
   idService INT NOT NULL,
+  fullNameWorker VARCHAR(45),
   descriptionService VARCHAR(300),
   priceService NUMERIC,
   city VARCHAR(25),
