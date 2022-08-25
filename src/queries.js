@@ -198,7 +198,8 @@ const workersByCategory = (request, response) => {
     db.query(`SELECT 
                 idworker, 
                 worker.idService,
-                fullname
+                fullname,
+                titleservice
                 FROM worker
                 INNER JOIN
                 service
