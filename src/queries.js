@@ -52,9 +52,11 @@ const authenticate = (request, response) => {
 
 const registerWorker = (request, response) => {
   try {
-    const { idPerson, idService, descriptionService, priceService, city, localization, whatsapp } = request.body
-    db.query('INSERT INTO worker ( idPerson, idService, descriptionService, priceService, city, localization, whatsapp ) values ($1, $2, $3, $4, $5, $6, $7)',
-      [idPerson, idService, descriptionService, priceService, city, localization, whatsapp], (error, results) => {
+    const { idPerson, idService, fullNameWorker, descriptionService, priceService, city, localization, whatsapp } = request.body
+    console.log('valores registerWorker:', { idPerson, idService, fullNameWorker, descriptionService, priceService, city, localization, whatsapp });
+
+    db.query('INSERT INTO worker ( idPerson, idService, fullNameWorker, descriptionService, priceService, city, localization, whatsapp ) values ($1, $2, $3, $4, $5, $6, $7, $8)',
+      [idPerson, idService, fullNameWorker, descriptionService, priceService, city, localization, whatsapp], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Trabalhador adicionado')
       }
@@ -240,6 +242,31 @@ const registerReview = (request, response) => {
   }
 }
 
+const getWorkersReviewed = (request, response) => {
+  const idperson = parseInt(request.params.id)
+  db.query(`SELECT
+              worker.fullnameWorker,
+              service.titleService,
+              review.stars,
+              review.messageReview
+              from review
+            INNER JOIN person
+            ON person.idperson = review.idperson
+            INNER JOIN worker
+            ON worker.idworker = review.idworker
+            INNER JOIN service
+            ON worker.idservice = service.idservice
+            WHERE
+            person.idperson = $1`,
+    [idperson], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -252,5 +279,6 @@ module.exports = {
   getServicesFromUser,
   workersByCategory,
   registerReview,
-  deleteUser
+  deleteUser,
+  getWorkersReviewed
 }

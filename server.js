@@ -35,6 +35,7 @@ app.get('/workers', routes.getWorkers)
 app.get('/workers/:id', routes.getWorkerById)
 app.get('/getServicesFromUser/:id', routes.getServicesFromUser)
 app.get('/workersByCategory/:id', routes.workersByCategory)
+app.get('/workersReviewed/:id', routes.getWorkersReviewed)
 
 app.delete('/workers/:id', routes.deleteWorkerService)
 app.delete('/users/:id', routes.deleteUser)
