@@ -82,7 +82,8 @@ const getServices = (request, response) => {
 }
 
 const getWorkers = (request, response) => {
-  db.query(`SELECT * FROM worker
+  db.query(`SELECT *
+            FROM worker
             INNER JOIN person
             on person.idperson = worker.idperson`,
     (error, results) => {
@@ -245,7 +246,7 @@ const getServicesReviewed = (request, response) => {
               service.titleService,
               review.stars,
               review.messageReview
-              from review
+            FROM review
             INNER JOIN person
             ON person.idperson = review.idperson
             INNER JOIN worker
@@ -274,6 +275,23 @@ const getEmail = (request, response) => {
     })
 }
 
+const getReviewsByWorker = (request, response) => {
+  const idWorker = parseInt(request.params.id)
+  db.query(`SELECT *
+            FROM review
+            INNER JOIN worker
+            ON worker.idworker = review.idworker
+            WHERE worker.idworker = $1`,
+    [idWorker], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
+
 module.exports = {
   registerUser,
   authenticate,
@@ -288,5 +306,6 @@ module.exports = {
   registerReview,
   deleteUser,
   getServicesReviewed,
-  getEmail
+  getEmail,
+  getReviewsByWorker
 }
