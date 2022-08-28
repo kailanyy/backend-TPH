@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'senai',
+  password: 'yasmin',
   port: 5432
 })
 
@@ -197,15 +197,10 @@ const getServicesFromUser = (request, response) => {
 const workersByCategory = (request, response) => {
   try {
     const id = parseInt(request.params.id)
-    db.query(`SELECT 
-                idworker, 
-                worker.idService,
-                fullname,
-                titleservice
+    db.query(`SELECT *
                 FROM worker
-                INNER JOIN
-                service
-                ON service.idService = worker.idService
+                INNER JOIN service
+                ON service.idservice = worker.idservice
                 INNER JOIN person
                 ON worker.idperson = person.idperson
                 WHERE worker.idService = $1`,
@@ -225,11 +220,11 @@ const workersByCategory = (request, response) => {
 
 const registerReview = (request, response) => {
   try {
-    const { idPerson, idWorker, messageReview, stars } = request.body
-    console.log('valores registerWorker:', { idPerson, idWorker, messageReview, stars });
+    const { idPerson, idWorker, fullnamePerson, messageReview, stars } = request.body
+    console.log('valores registerWorker:', { idPerson, idWorker, fullnamePerson, messageReview, stars });
 
-    db.query('INSERT INTO review ( idPerson, idWorker, messageReview, stars ) values ($1, $2, $3, $4)',
-      [idPerson, idWorker, messageReview, stars], (error, results) => {
+    db.query('INSERT INTO review ( idPerson, idWorker, fullnamePerson, messageReview, stars ) values ($1, $2, $3, $4, $5)',
+      [idPerson, idWorker, fullnamePerson, messageReview, stars], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Avaliação feita :))))))')
       }
@@ -243,7 +238,7 @@ const registerReview = (request, response) => {
   }
 }
 
-const getWorkersReviewed = (request, response) => {
+const getServicesReviewed = (request, response) => {
   const idperson = parseInt(request.params.id)
   db.query(`SELECT
               worker.fullnameWorker,
@@ -292,6 +287,6 @@ module.exports = {
   workersByCategory,
   registerReview,
   deleteUser,
-  getWorkersReviewed,
+  getServicesReviewed,
   getEmail
 }

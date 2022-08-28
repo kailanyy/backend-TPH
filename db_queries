@@ -31,6 +31,7 @@ CREATE TABLE review(
   idReview SERIAL PRIMARY KEY,
   idPerson INT NOT NULL,
   idWorker INT NOT NULL,
+  fullNamePerson VARCHAR(45),
   messageReview VARCHAR(245),
   stars CHAR(1),
   FOREIGN KEY (idPerson) REFERENCES person (idPerson),
