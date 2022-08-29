@@ -178,9 +178,7 @@ const getServicesFromUser = (request, response) => {
   console.log('request.params', request.params);
   console.log('getServicesFromUser', idperson, request);
   db.query(`SELECT 
-              worker.idworker,
-              service.idservice,
-              titleservice
+              *
             FROM worker
             INNER JOIN person
             ON worker.idperson = person.idperson
