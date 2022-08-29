@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'yasmin',
+  password: 'senai',
   port: 5432
 })
 
@@ -179,6 +179,7 @@ const getServicesFromUser = (request, response) => {
   console.log('getServicesFromUser', idperson, request);
   db.query(`SELECT 
               worker.idworker,
+              service.idservice,
               titleservice
             FROM worker
             INNER JOIN person
