@@ -290,6 +290,22 @@ const getReviewsByWorker = (request, response) => {
     })
 }
 
+const getAverageRating = (request, response) => {
+  const idWorker = parseInt(request.params.id)
+  db.query(`SELECT avg(stars)
+            FROM review
+            INNER JOIN worker
+            ON worker.idworker = review.idworker
+            WHERE worker.idworker = $1`,
+    [idWorker], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
 
 module.exports = {
   registerUser,
@@ -306,5 +322,6 @@ module.exports = {
   deleteUser,
   getServicesReviewed,
   getEmail,
-  getReviewsByWorker
+  getReviewsByWorker,
+  getAverageRating
 }
