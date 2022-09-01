@@ -33,7 +33,7 @@ CREATE TABLE review(
   idWorker INT NOT NULL,
   fullNamePerson VARCHAR(45),
   messageReview VARCHAR(245),
-  stars CHAR(1),
+  stars int,
   FOREIGN KEY (idPerson) REFERENCES person (idPerson),
   FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
 );

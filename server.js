@@ -43,6 +43,7 @@ app.get('/averageRatingByWorker/:id', routes.getAverageRating)
 
 app.delete('/workers/:id', routes.deleteWorkerService)
 app.delete('/users/:id', routes.deleteUser)
+app.delete('/reviews/:id', routes.deleteReview)
 
 app.listen(3001, () => {
   console.log("API REST rodando em http://localhost:3001")

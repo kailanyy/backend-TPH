@@ -129,7 +129,7 @@ const updateUser = (request, response) => {
   try {
     const idPerson = parseInt(request.params.id)
     const { email, password } = request.body
-    console.log('valores updateUser: ', { email, password})
+    console.log('valores updateUser: ', { email, password })
 
     db.query('UPDATE person SET email = $1, pass = $2 WHERE idperson = $3',
       [email, password, idPerson],
@@ -241,6 +241,7 @@ const registerReview = (request, response) => {
 const getServicesReviewed = (request, response) => {
   const idperson = parseInt(request.params.id)
   db.query(`SELECT
+              review.idreview,
               worker.fullnameWorker,
               service.titleService,
               review.stars,
@@ -306,6 +307,31 @@ const getAverageRating = (request, response) => {
     })
 }
 
+const deleteReview = (request, response) => {
+  try {
+    const idReview = parseInt(request.params.id)
+
+    if (!isNaN(idReview)) {
+      db.query('delete from review where idreview = $1', [idReview],
+        (error, results) => {
+          if (error) {
+            throw error
+          } response.status(201).send('Avaliação deletada')
+        })
+
+    } else {
+      throw Error('Erro ao deletar a avaliação. ID não existe')
+
+    }
+  } catch (error) {
+    console.log(error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao deletar a avaliação.' + error
+    })
+  }
+}
+
 
 module.exports = {
   registerUser,
@@ -323,5 +349,6 @@ module.exports = {
   getServicesReviewed,
   getEmail,
   getReviewsByWorker,
-  getAverageRating
+  getAverageRating,
+  deleteReview
 }
