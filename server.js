@@ -40,6 +40,7 @@ app.get('/servicesReviewed/:id', routes.getServicesReviewed)
 app.get('/personEmails', routes.getEmail)
 app.get('/reviewsByWorker/:id', routes.getReviewsByWorker)
 app.get('/averageRatingByWorker/:id', routes.getAverageRating)
+app.get('/locationWorkers', routes.getLocationWorkers)
 
 app.delete('/workers/:id', routes.deleteWorkerService)
 app.delete('/users/:id', routes.deleteUser)

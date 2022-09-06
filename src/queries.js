@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'senai',
+  password: '123',
   port: 5432
 })
 
@@ -86,6 +86,22 @@ const getWorkers = (request, response) => {
             FROM worker
             INNER JOIN person
             on person.idperson = worker.idperson`,
+    (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
+const getLocationWorkers = (request, response) => {
+  db.query(`SELECT
+              city,
+              localization
+              FROM worker
+              INNER JOIN person
+              on person.idperson = worker.idperson`,
     (error, results) => {
       console.log('results', results);
       if (error) {
@@ -350,5 +366,6 @@ module.exports = {
   getEmail,
   getReviewsByWorker,
   getAverageRating,
-  deleteReview
+  deleteReview,
+  getLocationWorkers
 }
