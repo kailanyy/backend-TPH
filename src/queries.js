@@ -95,22 +95,6 @@ const getWorkers = (request, response) => {
     })
 }
 
-const getLocationWorkers = (request, response) => {
-  db.query(`SELECT
-              city,
-              localization
-              FROM worker
-              INNER JOIN person
-              on person.idperson = worker.idperson`,
-    (error, results) => {
-      console.log('results', results);
-      if (error) {
-        throw error
-      }
-      response.status(200).json(results.rows)
-    })
-}
-
 const getWorkerById = (request, response) => {
   const id = parseInt(request.params.id)
   db.query('select * from worker where idperson = $1',
@@ -366,6 +350,5 @@ module.exports = {
   getEmail,
   getReviewsByWorker,
   getAverageRating,
-  deleteReview,
-  getLocationWorkers
+  deleteReview
 }
