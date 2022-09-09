@@ -197,13 +197,30 @@ const getServicesFromUser = (request, response) => {
 const workersByCategory = (request, response) => {
   try {
     const id = parseInt(request.params.id)
-    db.query(`SELECT *
+    db.query(`SELECT
+                worker.idworker,
+                service.idservice,
+                person.idperson,
+                person.fullname,
+                person.email,
+                person.phonenumber,
+                person.birthdate,
+                service.titleservice,
+                worker.descriptionService,
+                worker.priceService,
+                worker.city,
+                worker.localization,
+                worker.whatsapp,
+                avg(review.stars)
                 FROM worker
                 INNER JOIN service
                 ON service.idservice = worker.idservice
                 INNER JOIN person
                 ON worker.idperson = person.idperson
-                WHERE worker.idService = $1`,
+                LEFT JOIN review
+                ON review.idworker = worker.idworker
+                WHERE service.idservice = $1
+                GROUP BY worker.idworker, service.idservice, person.idperson`,
       [id], (error, results) => {
         console.log('Error', error);
         response.status(201).send(results.rows)
