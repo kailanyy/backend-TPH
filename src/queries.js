@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: '123',
+  password: 'senai',
   port: 5432
 })
 
@@ -128,17 +128,17 @@ const deleteWorkerService = (request, response) => {
 const updateUser = (request, response) => {
   try {
     const idPerson = parseInt(request.params.id)
-    const { email, password } = request.body
-    console.log('valores updateUser: ', { email, password })
+    const { email, password, phoneNumber } = request.body
+    console.log('valores updateUser: ', { email, password, phoneNumber})
 
-    db.query('UPDATE person SET email = $1, pass = $2 WHERE idperson = $3',
-      [email, password, idPerson],
+    db.query('update person set email = $1, pass = $2, phoneNumber =  $3 where idperson = $4',
+      [email, password, phoneNumber, idPerson],
       (error, results) => {
         if (error) {
           throw error
-        }
-        response.status(201).send('Usuario atualizado')
+        } response.status(201).send('Usuário atualizado')
       })
+
   } catch (error) {
     console.log('Erro: ' + error);
     response.status(400).send({
