@@ -37,7 +37,6 @@ app.get('/workers/:id', routes.getWorkerById)
 app.get('/getServicesFromUser/:id', routes.getServicesFromUser)
 app.get('/workersByCategory/:id', routes.workersByCategory)
 app.get('/servicesReviewed/:id', routes.getServicesReviewed)
-app.get('/personEmails', routes.getEmail)
 app.get('/reviewsByWorker/:id', routes.getReviewsByWorker)
 app.get('/averageRatingByWorker/:id', routes.getAverageRating)
 

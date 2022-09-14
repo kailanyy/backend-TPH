@@ -11,9 +11,9 @@ const db = new Pool({
 
 const registerUser = (request, response) => {
   try {
-    const { fullName, email, phoneNumber, birthDate, password } = request.body
-    db.query('INSERT INTO person ( fullName, email, phoneNumber, birthDate, pass ) values ($1, $2, $3, $4, $5)',
-      [fullName, email, phoneNumber, birthDate, password], (error, results) => {
+    const { firstName, lastName, email, phoneNumber, birthDate, password } = request.body
+    db.query('INSERT INTO person ( firstName, lastName, email, phoneNumber, birthDate, pass ) values ($1, $2, $3, $4, $5, $6)',
+      [firstName, lastName, email, phoneNumber, birthDate, password], (error, results) => {
         console.log('error', error);
         console.log('response', response);
         response.status(201).send('Usuário adicionado')
@@ -52,11 +52,11 @@ const authenticate = (request, response) => {
 
 const registerWorker = (request, response) => {
   try {
-    const { idPerson, idService, fullNameWorker, descriptionService, priceService, city, localization, whatsapp } = request.body
-    console.log('valores registerWorker:', { idPerson, idService, fullNameWorker, descriptionService, priceService, city, localization, whatsapp });
+    const { idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, priceService, city, localization, whatsapp } = request.body
+    console.log('valores registerWorker:', { idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, priceService, city, localization, whatsapp });
 
-    db.query('INSERT INTO worker ( idPerson, idService, fullNameWorker, descriptionService, priceService, city, localization, whatsapp ) values ($1, $2, $3, $4, $5, $6, $7, $8)',
-      [idPerson, idService, fullNameWorker, descriptionService, priceService, city, localization, whatsapp], (error, results) => {
+    db.query('INSERT INTO worker ( idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, priceService, city, localization, whatsapp ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+      [idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, priceService, city, localization, whatsapp], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Trabalhador adicionado')
       }
@@ -201,7 +201,8 @@ const workersByCategory = (request, response) => {
                 worker.idworker,
                 service.idservice,
                 person.idperson,
-                person.fullname,
+                person.firstName,
+                person.lastName,
                 person.email,
                 person.phonenumber,
                 person.birthdate,
@@ -237,11 +238,11 @@ const workersByCategory = (request, response) => {
 
 const registerReview = (request, response) => {
   try {
-    const { idPerson, idWorker, fullnamePerson, messageReview, stars } = request.body
-    console.log('valores registerWorker:', { idPerson, idWorker, fullnamePerson, messageReview, stars });
+    const { idPerson, idWorker, firstNamePerson, lastNamePerson, messageReview, stars } = request.body
+    console.log('valores registerWorker:', { idPerson, idWorker, firstNamePerson, lastNamePerson, messageReview, stars });
 
-    db.query('INSERT INTO review ( idPerson, idWorker, fullnamePerson, messageReview, stars ) values ($1, $2, $3, $4, $5)',
-      [idPerson, idWorker, fullnamePerson, messageReview, stars], (error, results) => {
+    db.query('INSERT INTO review ( idPerson, idWorker, firstNamePerson, lastNamePerson, messageReview, stars ) values ($1, $2, $3, $4, $5, $6)',
+      [idPerson, idWorker, firstNamePerson, lastNamePerson, messageReview, stars], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Avaliação feita :))))))')
       }
@@ -259,7 +260,8 @@ const getServicesReviewed = (request, response) => {
   const idperson = parseInt(request.params.id)
   db.query(`SELECT
               review.idreview,
-              worker.fullnameWorker,
+              worker.firstNameWorker,
+              worker.lastNameWorker,
               service.titleService,
               review.stars,
               review.messageReview
@@ -273,17 +275,6 @@ const getServicesReviewed = (request, response) => {
             WHERE
             person.idperson = $1`,
     [idperson], (error, results) => {
-      console.log('results', results);
-      if (error) {
-        throw error
-      }
-      response.status(200).json(results.rows)
-    })
-}
-
-const getEmail = (request, response) => {
-  db.query('SELECT email FROM person',
-    (error, results) => {
       console.log('results', results);
       if (error) {
         throw error
@@ -364,7 +355,6 @@ module.exports = {
   registerReview,
   deleteUser,
   getServicesReviewed,
-  getEmail,
   getReviewsByWorker,
   getAverageRating,
   deleteReview
