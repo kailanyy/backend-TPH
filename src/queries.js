@@ -11,9 +11,9 @@ const db = new Pool({
 
 const registerUser = (request, response) => {
   try {
-    const { firstName, lastName, email, phoneNumber, birthDate, password } = request.body
-    db.query('INSERT INTO person ( firstName, lastName, email, phoneNumber, birthDate, pass ) values ($1, $2, $3, $4, $5, $6)',
-      [firstName, lastName, email, phoneNumber, birthDate, password], (error, results) => {
+    const { firstName, lastName, email, birthDate, password } = request.body
+    db.query('INSERT INTO person ( firstName, lastName, email, birthDate, pass ) values ($1, $2, $3, $4, $5)',
+      [firstName, lastName, email, birthDate, password], (error, results) => {
         console.log('error', error);
         console.log('response', response);
         response.status(201).send('Usuário adicionado')
@@ -52,11 +52,11 @@ const authenticate = (request, response) => {
 
 const registerWorker = (request, response) => {
   try {
-    const { idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, priceService, city, localization, whatsapp } = request.body
-    console.log('valores registerWorker:', { idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, priceService, city, localization, whatsapp });
+    const { idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, whatsapp } = request.body
+    console.log('valores registerWorker:', { idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, whatsapp });
 
-    db.query('INSERT INTO worker ( idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, priceService, city, localization, whatsapp ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
-      [idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, priceService, city, localization, whatsapp], (error, results) => {
+    db.query('INSERT INTO worker ( idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, whatsapp ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)',
+      [idPerson, idService, firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, whatsapp], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Trabalhador adicionado')
       }
@@ -128,11 +128,11 @@ const deleteWorkerService = (request, response) => {
 const updateUser = (request, response) => {
   try {
     const idPerson = parseInt(request.params.id)
-    const { email, password, phoneNumber } = request.body
-    console.log('valores updateUser: ', { email, password, phoneNumber})
+    const { email, password } = request.body
+    console.log('valores updateUser: ', { email, password})
 
-    db.query('update person set email = $1, pass = $2, phoneNumber =  $3 where idperson = $4',
-      [email, password, phoneNumber, idPerson],
+    db.query('update person set email = $1, pass = $2 where idperson = $4',
+      [email, password, idPerson],
       (error, results) => {
         if (error) {
           throw error
@@ -204,10 +204,10 @@ const workersByCategory = (request, response) => {
                 person.firstName,
                 person.lastName,
                 person.email,
-                person.phonenumber,
                 person.birthdate,
                 service.titleservice,
                 worker.descriptionService,
+                worker.phoneNumber,
                 worker.priceService,
                 worker.city,
                 worker.localization,

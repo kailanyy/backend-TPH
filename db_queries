@@ -3,7 +3,6 @@ CREATE TABLE person (
   firstName VARCHAR(45),
   lastName VARCHAR(45),
   email VARCHAR(45) NOT NULL,
-  phoneNumber VARCHAR(45) NOT NULL,
   birthDate DATE NOT NULL,
   pass VARCHAR(45) NOT NULL
 );
@@ -21,6 +20,7 @@ CREATE TABLE worker(
   firstNameWorker VARCHAR(45),
   lastNameWorker VARCHAR(45),
   descriptionService VARCHAR(300),
+  phoneNumber VARCHAR(45),
   priceService NUMERIC,
   city VARCHAR(25),
   localization CHAR(2),
