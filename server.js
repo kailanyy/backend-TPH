@@ -25,6 +25,7 @@ app.post('/', (request, response) => {
 })
 
 app.put('/users/:id', routes.updateUser)
+app.put('/updateworker/:id', routes.updateProfileWorker)
 
 app.post('/registerUser', routes.registerUser)
 app.post('/registerWorker', routes.registerWorker)
@@ -33,7 +34,8 @@ app.post('/reviews', routes.registerReview)
 
 app.get('/services', routes.getServices)
 app.get('/workers', routes.getWorkers)
-app.get('/workers/:id', routes.getWorkerById)
+app.get('/workers/:id', routes.getWorkerByIdPerson)
+app.get('/updateworker/:id', routes.getWorkerById)
 app.get('/getServicesFromUser/:id', routes.getServicesFromUser)
 app.get('/workersByCategory/:id', routes.workersByCategory)
 app.get('/servicesReviewed/:id', routes.getServicesReviewed)

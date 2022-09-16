@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'senai',
+  password: 'yasmin',
   port: 5432
 })
 
@@ -95,9 +95,20 @@ const getWorkers = (request, response) => {
     })
 }
 
-const getWorkerById = (request, response) => {
+const getWorkerByIdPerson = (request, response) => {
   const id = parseInt(request.params.id)
   db.query('select * from worker where idperson = $1',
+    [id], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
+const getWorkerById = (request, response) => {
+  const id = parseInt(request.params.id)
+  db.query('select * from worker where idworker = $1',
     [id], (error, results) => {
       if (error) {
         throw error
@@ -129,9 +140,9 @@ const updateUser = (request, response) => {
   try {
     const idPerson = parseInt(request.params.id)
     const { email, password } = request.body
-    console.log('valores updateUser: ', { email, password})
+    console.log('valores updateUser: ', { email, password })
 
-    db.query('update person set email = $1, pass = $2 where idperson = $4',
+    db.query('update person set email = $1, pass = $2 where idperson = $3',
       [email, password, idPerson],
       (error, results) => {
         if (error) {
@@ -340,6 +351,29 @@ const deleteReview = (request, response) => {
   }
 }
 
+const updateProfileWorker = (request, response) => {
+  try {
+    const idWorker = parseInt(request.params.id)
+    const { descriptionService, phoneNumber, priceService, city, localization, whatsapp } = request.body
+    console.log('valores updateUser: ', { descriptionService, phoneNumber, priceService, city, localization, whatsapp })
+
+    db.query('update worker set descriptionService = $1, phoneNumber = $2, priceService = $3, city = $4, localization = $5, whatsapp = $6 where idworker = $7',
+      [descriptionService, phoneNumber, priceService, city, localization, whatsapp, idWorker],
+      (error, results) => {
+        if (error) {
+          throw error
+        } response.status(201).send('Trabalhador atualizado')
+      })
+
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao atualizar o registro. ' + error
+    })
+  }
+}
+
 
 module.exports = {
   registerUser,
@@ -347,7 +381,7 @@ module.exports = {
   registerWorker,
   getServices,
   getWorkers,
-  getWorkerById,
+  getWorkerByIdPerson,
   deleteWorkerService,
   updateUser,
   getServicesFromUser,
@@ -357,5 +391,7 @@ module.exports = {
   getServicesReviewed,
   getReviewsByWorker,
   getAverageRating,
-  deleteReview
+  deleteReview,
+  updateProfileWorker,
+  getWorkerById
 }
