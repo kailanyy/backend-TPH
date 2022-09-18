@@ -41,6 +41,27 @@ CREATE TABLE review(
   FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
 );
 
+CREATE TABLE chat(
+  idChat SERIAL PRIMARY KEY,
+  idPerson1 int,
+  firstNamePerson1 VARCHAR(45),
+  lastNamePerson1 VARCHAR(45),
+  idPerson2 int,
+  firstNamePerson2 VARCHAR(45),
+  lastNamePerson2 VARCHAR(45)
+);
+
+CREATE TABLE messages(
+  idMessage SERIAL PRIMARY KEY,
+  idChat INT NOT NULL,
+  idPerson int,
+  messageText VARCHAR(250),
+  messageDate TIMESTAMP,
+  FOREIGN KEY (idChat) REFERENCES chat (idChat)
+);
+
+-- INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2 ) values ($1, $2, $3, $4, $5, $6)
+
 insert into service(titleservice, icon) values('Eletricista', 'https://cdn-icons-png.flaticon.com/512/320/320345.png');
 insert into service(titleservice, icon) values('Jardinagem', 'https://cdn-icons-png.flaticon.com/512/2592/2592037.png');
 insert into service(titleservice, icon) values('Estética', 'https://cdn-icons-png.flaticon.com/512/3501/3501241.png');

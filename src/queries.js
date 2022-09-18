@@ -374,6 +374,74 @@ const updateProfileWorker = (request, response) => {
   }
 }
 
+const createChat = (request, response) => {
+  try {
+    const { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2 } = request.body
+    console.log('valores createChat:', { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2 });
+
+    db.query('INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2 ) values ($1, $2, $3, $4, $5, $6)',
+      [idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2], (error, results) => {
+        console.log('Error', error);
+        response.status(201).send('Chat criado')
+      }
+    )
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(500).send({
+      status: 500,
+      message: 'Erro ao criar chat. ' + error
+    })
+  }
+}
+
+const getChatsByLoggedUser = (request, response) => {
+  const idPerson = parseInt(request.params.id)
+  db.query(`SELECT *
+            FROM chat
+            WHERE idPerson1 = $1 or idPerson2 = $1`,
+    [idPerson], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
+const getMessages = (request, response) => {
+  const idChat = parseInt(request.params.id)
+  db.query(`SELECT *
+            FROM messages
+            WHERE idChat = $1
+            ORDER BY messageDate asc`,
+    [idChat], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
+const sendMessage = (request, response) => {
+  try {
+    const { idChat, idPerson, messageText } = request.body
+    console.log('valores messagem:', { idChat, idPerson, messageText });
+
+    db.query('INSERT INTO messages ( idChat, idPerson, messageText, messageDate ) values ($1, $2, $3, now())',
+      [idChat, idPerson, messageText], (error, results) => {
+        console.log('Error', error);
+        response.status(201).send('Mensagem enviada')
+      }
+    )
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(500).send({
+      status: 500,
+      message: 'Erro ao enviar mensagem. ' + error
+    })
+  }
+}
 
 module.exports = {
   registerUser,
@@ -393,5 +461,9 @@ module.exports = {
   getAverageRating,
   deleteReview,
   updateProfileWorker,
-  getWorkerById
+  getWorkerById,
+  createChat,
+  getChatsByLoggedUser,
+  getMessages,
+  sendMessage
 }
