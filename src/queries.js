@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'yasmin',
+  password: 'senai',
   port: 5432
 })
 
@@ -443,6 +443,26 @@ const sendMessage = (request, response) => {
   }
 }
 
+const postImage = () => {
+  try {
+    const { idGallery, idWorker, img } = request.body
+    console.log('Valores postImage:', { idGallery, idWorker, img });
+
+    db.query('INSERT INTO gallery ( idGallery, idWorker, img ) values ($1, $2, $3)',
+      [idGallery, idWorker, img], (error, results) => {
+        console.log('Error @ postImage:', error);
+        response.status(201).send('Imagem Publicada')
+      }
+    )
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(500).send({
+      status: 500,
+      message: 'Erro ao publicar imagem' + error
+    })
+  }
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -465,5 +485,6 @@ module.exports = {
   createChat,
   getChatsByLoggedUser,
   getMessages,
-  sendMessage
+  sendMessage,
+  postImage
 }

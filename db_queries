@@ -60,6 +60,13 @@ CREATE TABLE messages(
   FOREIGN KEY (idChat) REFERENCES chat (idChat)
 );
 
+CREATE TABLE gallery (
+  idGallery SERIAL PRIMARY KEY ,
+  idWorker INT NOT NULL,
+  img VARCHAR(900), 
+  FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
+)
+
 -- INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2 ) values ($1, $2, $3, $4, $5, $6)
 
 insert into service(titleservice, icon) values('Eletricista', 'https://cdn-icons-png.flaticon.com/512/320/320345.png');
