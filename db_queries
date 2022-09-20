@@ -60,7 +60,7 @@ CREATE TABLE messages(
 );
 
 CREATE TABLE workerGallery (
-  idWorkerGallery SERIAL PRIMARY KEY ,
+  idImage SERIAL PRIMARY KEY ,
   idWorker INT NOT NULL,
   img VARCHAR(500), 
   FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
