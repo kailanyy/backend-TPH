@@ -53,11 +53,10 @@ CREATE TABLE chat(
 
 CREATE TABLE messages(
   idMessage SERIAL PRIMARY KEY,
-  idChat INT NOT NULL,
-  idPerson int,
+  idChat INT,
+  idPerson INT,
   messageText VARCHAR(250),
-  messageDate TIMESTAMP,
-  FOREIGN KEY (idChat) REFERENCES chat (idChat)
+  messageDate TIMESTAMP
 );
 
 -- INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2 ) values ($1, $2, $3, $4, $5, $6)

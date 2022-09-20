@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'yasmin',
+  password: 'senai',
   port: 5432
 })
 
@@ -443,6 +443,56 @@ const sendMessage = (request, response) => {
   }
 }
 
+const deleteMessages = (request, response) => {
+  try {
+    const idChat = parseInt(request.params.id)
+
+    if (!isNaN(idChat)) {
+      db.query('delete from messages where idChat = $1', [idChat],
+        (error, results) => {
+          if (error) {
+            throw error
+          } response.status(201).send('Mensagens deletadas')
+        })
+
+    } else {
+      throw Error('Erro ao deletar as mensagens. ID não existe')
+
+    }
+  } catch (error) {
+    console.log(error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao deletar as mensagens.' + error
+    })
+  }
+}
+
+const deleteChat = (request, response) => {
+  try {
+    const idChat = parseInt(request.params.id)
+
+    if (!isNaN(idChat)) {
+      db.query('delete from chat where idChat = $1', [idChat],
+        (error, results) => {
+          if (error) {
+            throw error
+          } response.status(201).send('Chat deletado')
+        })
+
+    } else {
+      throw Error('Erro ao deletar o chat. ID não existe')
+
+    }
+  } catch (error) {
+    console.log(error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao deletar o chat.' + error
+    })
+  }
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -465,5 +515,7 @@ module.exports = {
   createChat,
   getChatsByLoggedUser,
   getMessages,
-  sendMessage
+  sendMessage,
+  deleteMessages,
+  deleteChat
 }
