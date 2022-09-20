@@ -492,6 +492,25 @@ const deleteChat = (request, response) => {
     })
   }
 }
+// const postImage = () => {
+//   try {
+//     const { idWorkerGallery, idWorker, img } = request.body
+//     console.log('Valores postImage:', { idWorkerGallery, idWorker, img });
+
+//     db.query('INSERT INTO workerGallery ( idWorkerGallery, idWorker, img ) values ($1, $2, $3)',
+//       [idWorkerGallery, idWorker, img], (error, results) => {
+//         console.log('Error @ postImage:', error);
+//         response.status(201).send('Imagem Publicada')
+//       }
+//     )
+//   } catch (error) {
+//     console.log('Erro: ' + error);
+//     response.status(500).send({
+//       status: 500,
+//       message: 'Erro ao publicar imagem' + error
+//     })
+//   }
+// }
 
 module.exports = {
   registerUser,
@@ -518,4 +537,5 @@ module.exports = {
   sendMessage,
   deleteMessages,
   deleteChat
+  // postImage
 }

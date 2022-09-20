@@ -59,7 +59,12 @@ CREATE TABLE messages(
   messageDate TIMESTAMP
 );
 
--- INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2 ) values ($1, $2, $3, $4, $5, $6)
+CREATE TABLE workerGallery (
+  idWorkerGallery SERIAL PRIMARY KEY ,
+  idWorker INT NOT NULL,
+  img VARCHAR(500), 
+  FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
+);
 
 insert into service(titleservice, icon) values('Eletricista', 'https://cdn-icons-png.flaticon.com/512/320/320345.png');
 insert into service(titleservice, icon) values('Jardinagem', 'https://cdn-icons-png.flaticon.com/512/2592/2592037.png');
