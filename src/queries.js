@@ -443,25 +443,25 @@ const sendMessage = (request, response) => {
   }
 }
 
-const postImage = () => {
-  try {
-    const { idGallery, idWorker, img } = request.body
-    console.log('Valores postImage:', { idGallery, idWorker, img });
+// const postImage = () => {
+//   try {
+//     const { idWorkerGallery, idWorker, img } = request.body
+//     console.log('Valores postImage:', { idWorkerGallery, idWorker, img });
 
-    db.query('INSERT INTO gallery ( idGallery, idWorker, img ) values ($1, $2, $3)',
-      [idGallery, idWorker, img], (error, results) => {
-        console.log('Error @ postImage:', error);
-        response.status(201).send('Imagem Publicada')
-      }
-    )
-  } catch (error) {
-    console.log('Erro: ' + error);
-    response.status(500).send({
-      status: 500,
-      message: 'Erro ao publicar imagem' + error
-    })
-  }
-}
+//     db.query('INSERT INTO workerGallery ( idWorkerGallery, idWorker, img ) values ($1, $2, $3)',
+//       [idWorkerGallery, idWorker, img], (error, results) => {
+//         console.log('Error @ postImage:', error);
+//         response.status(201).send('Imagem Publicada')
+//       }
+//     )
+//   } catch (error) {
+//     console.log('Erro: ' + error);
+//     response.status(500).send({
+//       status: 500,
+//       message: 'Erro ao publicar imagem' + error
+//     })
+//   }
+// }
 
 module.exports = {
   registerUser,
@@ -486,5 +486,5 @@ module.exports = {
   getChatsByLoggedUser,
   getMessages,
   sendMessage,
-  postImage
+  // postImage
 }
