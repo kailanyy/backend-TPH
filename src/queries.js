@@ -511,6 +511,23 @@ const postImage = (request, response) => {
   }
 }
 
+const getImageWorker = (request, response) => {
+
+  const idworker = parseInt(request.params.id)
+  
+  db.query(`SELECT img
+            FROM workergallery
+            INNER JOIN worker
+            ON workergallery.idworker = worker.idworker
+            WHERE workergallery.idworker = $1`,
+    [idworker], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(201).json(results.rows)
+    })
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -536,5 +553,6 @@ module.exports = {
   sendMessage,
   deleteMessages,
   deleteChat,
-  postImage
+  postImage,
+  getImageWorker
 }
