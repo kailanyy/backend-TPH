@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: '123',
+  password: 'yasmin',
   port: 5432
 })
 
@@ -512,7 +512,6 @@ const postImage = (request, response) => {
 }
 
 const getImageWorker = (request, response) => {
-
   const idworker = parseInt(request.params.id)
   
   db.query(`SELECT img
@@ -525,6 +524,26 @@ const getImageWorker = (request, response) => {
         throw error
       }
       response.status(201).json(results.rows)
+    })
+}
+
+const getIfChatExists = (request, response) => {  
+  const { idPerson1 } = parseInt(request.params.id1)
+  const { idPerson2 } = parseInt(request.params.id2)
+  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', parseInt(request.params.id));
+  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', parseInt(request.params.id2));
+  
+
+  db.query(`SELECT *
+            FROM chat
+            WHERE idPerson1 = $1 or idPerson2 = $1
+            AND idPerson1 = $2 or idPerson2 = $2`,
+    [idPerson1, idPerson2], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
     })
 }
 
@@ -554,5 +573,6 @@ module.exports = {
   deleteMessages,
   deleteChat,
   postImage,
-  getImageWorker
+  getImageWorker,
+  getIfChatExists
 }

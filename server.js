@@ -47,6 +47,7 @@ app.get('/averageRatingByWorker/:id', routes.getAverageRating)
 app.get('/chats/:id', routes.getChatsByLoggedUser)
 app.get('/messages/:id', routes.getMessages)
 app.get('/getImageWorker/:id', routes.getImageWorker)
+app.get('/chats/:id1&:id2', routes.getIfChatExists)
 
 app.delete('/workers/:id', routes.deleteWorkerService)
 app.delete('/users/:id', routes.deleteUser)
