@@ -136,25 +136,71 @@ const deleteWorkerService = (request, response) => {
   }
 }
 
-const updateUser = (request, response) => {
+const updateEmail = (request, response) => {
   try {
     const idPerson = parseInt(request.params.id)
-    const { email, password } = request.body
-    console.log('valores updateUser: ', { email, password })
+    const { email } = request.body
+    console.log('valores updateUser: ', { email })
 
-    db.query('update person set email = $1, pass = $2 where idperson = $3',
-      [email, password, idPerson],
+    db.query('update person set email = $1 where idperson = $2',
+      [email, idPerson],
       (error, results) => {
         if (error) {
           throw error
-        } response.status(201).send('Usuário atualizado')
+        } response.status(201).send('Email atualizado')
       })
 
   } catch (error) {
     console.log('Erro: ' + error);
     response.status(400).send({
       status: 400,
-      message: 'Erro ao atualizar o registro. ' + error
+      message: 'Erro ao atualizar o email. ' + error
+    })
+  }
+}
+
+const updateBirthDate = (request, response) => {
+  try {
+    const idPerson = parseInt(request.params.id)
+    const { birthDate } = request.body
+    console.log('valores updateUser: ', { birthDate })
+
+    db.query('update person set birthdate = $1 where idperson = $2',
+      [birthDate, idPerson],
+      (error, results) => {
+        if (error) {
+          throw error
+        } response.status(201).send('Data de nascimento atualizada')
+      })
+
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao atualizar a data de nascimento. ' + error
+    })
+  }
+}
+
+const updatePassword = (request, response) => {
+  try {
+    const idPerson = parseInt(request.params.id)
+    const { pass } = request.body
+    console.log('valores updateUser: ', { pass })
+
+    db.query('update person set pass = $1 where idperson = $2',
+      [pass, idPerson],
+      (error, results) => {
+        if (error) {
+          throw error
+        } response.status(201).send('Senha atualizada')
+      })
+
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao atualizar a senha. ' + error
     })
   }
 }
@@ -555,7 +601,9 @@ module.exports = {
   getWorkers,
   getWorkerByIdPerson,
   deleteWorkerService,
-  updateUser,
+  updateEmail,
+  updateBirthDate,
+  updatePassword,
   getServicesFromUser,
   workersByCategory,
   registerReview,

@@ -24,7 +24,9 @@ app.post('/', (request, response) => {
   request.status(200)
 })
 
-app.put('/users/:id', routes.updateUser)
+app.put('/users/email/:id', routes.updateEmail)
+app.put('/users/birthdate/:id', routes.updateBirthDate)
+app.put('/users/pass/:id', routes.updatePassword)
 app.put('/updateworker/:id', routes.updateProfileWorker)
 
 app.post('/registerUser', routes.registerUser)
@@ -47,7 +49,7 @@ app.get('/averageRatingByWorker/:id', routes.getAverageRating)
 app.get('/chats/:id', routes.getChatsByLoggedUser)
 app.get('/messages/:id', routes.getMessages)
 app.get('/getImageWorker/:id', routes.getImageWorker)
-app.get('/chats/:id1&:id2', routes.getIfChatExists)
+app.get('/chats/:id1/:id2', routes.getIfChatExists)
 
 app.delete('/workers/:id', routes.deleteWorkerService)
 app.delete('/users/:id', routes.deleteUser)
