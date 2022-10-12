@@ -28,6 +28,7 @@ app.put('/users/email/:id', routes.updateEmail)
 app.put('/users/birthdate/:id', routes.updateBirthDate)
 app.put('/users/pass/:id', routes.updatePassword)
 app.put('/updateworker/:id', routes.updateProfileWorker)
+app.put('/chats/cancel/:id', routes.cancelService)
 
 app.post('/registerUser', routes.registerUser)
 app.post('/registerWorker', routes.registerWorker)
@@ -54,8 +55,8 @@ app.get('/chats/:id1/:id2', routes.getIfChatExists)
 app.delete('/workers/:id', routes.deleteWorkerService)
 app.delete('/users/:id', routes.deleteUser)
 app.delete('/reviews/:id', routes.deleteReview)
-app.delete('/messages/:id', routes.deleteMessages)
-app.delete('/chat/:id', routes.deleteChat)
+// app.delete('/messages/:id', routes.deleteMessages)
+// app.delete('/chat/:id', routes.deleteChat)
 
 app.listen(3001, () => {
   console.log("API REST rodando em http://localhost:3001")

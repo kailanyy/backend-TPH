@@ -48,7 +48,9 @@ CREATE TABLE chat(
   lastNamePerson1 VARCHAR(45),
   idPerson2 int,
   firstNamePerson2 VARCHAR(45),
-  lastNamePerson2 VARCHAR(45)
+  lastNamePerson2 VARCHAR(45),
+  serviceCategory VARCHAR(45),
+  status VARCHAR(15)
 );
 
 CREATE TABLE messages(

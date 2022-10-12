@@ -422,11 +422,11 @@ const updateProfileWorker = (request, response) => {
 
 const createChat = (request, response) => {
   try {
-    const { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2 } = request.body
-    console.log('valores createChat:', { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2 });
+    const { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, serviceCategory, status } = request.body
+    console.log('valores createChat:', { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, serviceCategory, status });
 
-    db.query('INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2 ) values ($1, $2, $3, $4, $5, $6)',
-      [idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2], (error, results) => {
+    db.query('INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, serviceCategory, status ) values ($1, $2, $3, $4, $5, $6, $7, $8)',
+      [idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, serviceCategory, status], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Chat criado')
       }
@@ -489,55 +489,55 @@ const sendMessage = (request, response) => {
   }
 }
 
-const deleteMessages = (request, response) => {
-  try {
-    const idChat = parseInt(request.params.id)
+// const deleteMessages = (request, response) => {
+//   try {
+//     const idChat = parseInt(request.params.id)
 
-    if (!isNaN(idChat)) {
-      db.query('delete from messages where idChat = $1', [idChat],
-        (error, results) => {
-          if (error) {
-            throw error
-          } response.status(201).send('Mensagens deletadas')
-        })
+//     if (!isNaN(idChat)) {
+//       db.query('delete from messages where idChat = $1', [idChat],
+//         (error, results) => {
+//           if (error) {
+//             throw error
+//           } response.status(201).send('Mensagens deletadas')
+//         })
 
-    } else {
-      throw Error('Erro ao deletar as mensagens. ID não existe')
+//     } else {
+//       throw Error('Erro ao deletar as mensagens. ID não existe')
 
-    }
-  } catch (error) {
-    console.log(error);
-    response.status(400).send({
-      status: 400,
-      message: 'Erro ao deletar as mensagens.' + error
-    })
-  }
-}
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     response.status(400).send({
+//       status: 400,
+//       message: 'Erro ao deletar as mensagens.' + error
+//     })
+//   }
+// }
 
-const deleteChat = (request, response) => {
-  try {
-    const idChat = parseInt(request.params.id)
+// const deleteChat = (request, response) => {
+//   try {
+//     const idChat = parseInt(request.params.id)
 
-    if (!isNaN(idChat)) {
-      db.query('delete from chat where idChat = $1', [idChat],
-        (error, results) => {
-          if (error) {
-            throw error
-          } response.status(201).send('Chat deletado')
-        })
+//     if (!isNaN(idChat)) {
+//       db.query('delete from chat where idChat = $1', [idChat],
+//         (error, results) => {
+//           if (error) {
+//             throw error
+//           } response.status(201).send('Chat deletado')
+//         })
 
-    } else {
-      throw Error('Erro ao deletar o chat. ID não existe')
+//     } else {
+//       throw Error('Erro ao deletar o chat. ID não existe')
 
-    }
-  } catch (error) {
-    console.log(error);
-    response.status(400).send({
-      status: 400,
-      message: 'Erro ao deletar o chat.' + error
-    })
-  }
-}
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     response.status(400).send({
+//       status: 400,
+//       message: 'Erro ao deletar o chat.' + error
+//     })
+//   }
+// }
 
 const postImage = (request, response) => {
   try {
@@ -593,6 +593,29 @@ const getIfChatExists = (request, response) => {
     })
 }
 
+const cancelService = (request, response) => {
+  try {
+    const idChat = parseInt(request.params.id)
+    const { status } = request.body
+    console.log('valores updateUser: ', { status })
+
+    db.query('update chat set status = $1 where idchat = $2',
+      [status, idChat],
+      (error, results) => {
+        if (error) {
+          throw error
+        } response.status(201).send('Serviço cancelado')
+      })
+
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao cancelar o registro. ' + error
+    })
+  }
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -618,9 +641,10 @@ module.exports = {
   getChatsByLoggedUser,
   getMessages,
   sendMessage,
-  deleteMessages,
-  deleteChat,
+  // deleteMessages,
+  // deleteChat,
   postImage,
   getImageWorker,
-  getIfChatExists
+  getIfChatExists,
+  cancelService
 }
