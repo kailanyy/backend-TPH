@@ -43,14 +43,16 @@ CREATE TABLE review(
 
 CREATE TABLE chat(
   idChat SERIAL PRIMARY KEY,
-  idPerson1 int,
+  idPerson1 INT,
   firstNamePerson1 VARCHAR(45),
   lastNamePerson1 VARCHAR(45),
-  idPerson2 int,
+  idPerson2 INT,
   firstNamePerson2 VARCHAR(45),
   lastNamePerson2 VARCHAR(45),
   serviceCategory VARCHAR(45),
-  status VARCHAR(15)
+  idWorker INT NOT NULL,
+  status VARCHAR(15),
+  FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
 );
 
 CREATE TABLE messages(

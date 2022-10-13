@@ -29,6 +29,7 @@ app.put('/users/birthdate/:id', routes.updateBirthDate)
 app.put('/users/pass/:id', routes.updatePassword)
 app.put('/updateworker/:id', routes.updateProfileWorker)
 app.put('/chats/cancel/:id', routes.cancelService)
+app.put('/chats/close/:id', routes.closeService)
 
 app.post('/registerUser', routes.registerUser)
 app.post('/registerWorker', routes.registerWorker)

@@ -422,11 +422,11 @@ const updateProfileWorker = (request, response) => {
 
 const createChat = (request, response) => {
   try {
-    const { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, serviceCategory, status } = request.body
-    console.log('valores createChat:', { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, serviceCategory, status });
+    const { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, idWorker, serviceCategory, status } = request.body
+    console.log('valores createChat:', { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, idWorker, serviceCategory, status });
 
-    db.query('INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, serviceCategory, status ) values ($1, $2, $3, $4, $5, $6, $7, $8)',
-      [idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, serviceCategory, status], (error, results) => {
+    db.query('INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, idWorker, serviceCategory, status ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+      [idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, idWorker, serviceCategory, status], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Chat criado')
       }
@@ -616,6 +616,29 @@ const cancelService = (request, response) => {
   }
 }
 
+const closeService = (request, response) => {
+  try {
+    const idChat = parseInt(request.params.id)
+    const { status } = request.body
+    console.log('valores updateUser: ', { status })
+
+    db.query('update chat set status = $1 where idchat = $2',
+      [status, idChat],
+      (error, results) => {
+        if (error) {
+          throw error
+        } response.status(201).send('Serviço cancelado')
+      })
+
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao cancelar o registro. ' + error
+    })
+  }
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -646,5 +669,6 @@ module.exports = {
   postImage,
   getImageWorker,
   getIfChatExists,
-  cancelService
+  cancelService,
+  closeService
 }
