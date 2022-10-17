@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'yasmin',
+  password: 'senai',
   port: 5432
 })
 
@@ -509,7 +509,7 @@ const postImage = (request, response) => {
 
 const getImageWorker = (request, response) => {
   const idworker = parseInt(request.params.id)
-  
+
   db.query(`SELECT img
             FROM workergallery
             INNER JOIN worker
@@ -523,12 +523,12 @@ const getImageWorker = (request, response) => {
     })
 }
 
-const getIfChatExists = (request, response) => {  
+const getIfChatExists = (request, response) => {
   const { idPerson1 } = parseInt(request.params.id1)
   const { idPerson2 } = parseInt(request.params.id2)
   console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', parseInt(request.params.id));
   console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', parseInt(request.params.id2));
-  
+
 
   db.query(`SELECT *
             FROM chat
@@ -589,6 +589,40 @@ const closeService = (request, response) => {
   }
 }
 
+
+const getRequestedServices = (request, response) => {
+  const idperson = parseInt(request.params.id)
+  db.query(`SELECT
+              service.titleservice,
+              worker.idworker,
+              worker.idperson,
+              worker.firstnameworker,
+              worker.lastnameworker,
+              service.titleservice, 
+              worker.phonenumber, 
+              worker.city, 
+              worker.localization,
+              worker.priceservice, 
+              worker.descriptionservice,
+              worker.whatsapp,
+              person.birthdate
+            FROM person
+            INNER JOIN worker
+            ON worker.idworker = worker.idperson
+            INNER JOIN service
+            ON worker.idservice = service.idservice
+            WHERE
+              person.idperson = $1`,
+    [idperson], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
+
 module.exports = {
   registerUser,
   authenticate,
@@ -618,5 +652,6 @@ module.exports = {
   getImageWorker,
   getIfChatExists,
   cancelService,
-  closeService
+  closeService,
+  getRequestedServices
 }
