@@ -37,6 +37,7 @@ CREATE TABLE review(
   lastNamePerson VARCHAR(45),
   messageReview VARCHAR(245),
   stars int,
+  dateReview TIMESTAMP,
   FOREIGN KEY (idPerson) REFERENCES person (idPerson),
   FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
 );

@@ -298,7 +298,7 @@ const registerReview = (request, response) => {
     const { idPerson, idWorker, firstNamePerson, lastNamePerson, messageReview, stars } = request.body
     console.log('valores registerWorker:', { idPerson, idWorker, firstNamePerson, lastNamePerson, messageReview, stars });
 
-    db.query('INSERT INTO review ( idPerson, idWorker, firstNamePerson, lastNamePerson, messageReview, stars ) values ($1, $2, $3, $4, $5, $6)',
+    db.query('INSERT INTO review ( idPerson, idWorker, firstNamePerson, lastNamePerson, messageReview, stars, dateReview ) values ($1, $2, $3, $4, $5, $6, now())',
       [idPerson, idWorker, firstNamePerson, lastNamePerson, messageReview, stars], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Avaliação feita :))))))')
