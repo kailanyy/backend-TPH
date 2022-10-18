@@ -592,27 +592,12 @@ const closeService = (request, response) => {
 
 const getRequestedServices = (request, response) => {
   const idperson = parseInt(request.params.id)
-  db.query(`SELECT
-              service.titleservice,
-              worker.idworker,
-              worker.idperson,
-              worker.firstnameworker,
-              worker.lastnameworker,
-              service.titleservice, 
-              worker.phonenumber, 
-              worker.city, 
-              worker.localization,
-              worker.priceservice, 
-              worker.descriptionservice,
-              worker.whatsapp,
-              person.birthdate
-            FROM person
-            INNER JOIN worker
-            ON worker.idworker = worker.idperson
-            INNER JOIN service
-            ON worker.idservice = service.idservice
-            WHERE
-            person.idperson = $1`,
+  db.query(`SELECT * from chat
+              INNER join worker
+              ON chat.idworker = worker.idworker
+              INNER join person
+              ON chat.idperson2 = person.idperson
+              WHERE chat.idperson1 = $1 or chat.idperson2 = $1`,
     [idperson], (error, results) => {
       console.log('results', results);
       if (error) {
