@@ -612,7 +612,7 @@ const getRequestedServices = (request, response) => {
             INNER JOIN service
             ON worker.idservice = service.idservice
             WHERE
-              person.idperson = $1`,
+            person.idperson = $1`,
     [idperson], (error, results) => {
       console.log('results', results);
       if (error) {
