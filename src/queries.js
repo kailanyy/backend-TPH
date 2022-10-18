@@ -442,9 +442,12 @@ const createChat = (request, response) => {
 
 const getChatsByLoggedUser = (request, response) => {
   const idPerson = parseInt(request.params.id)
-  db.query(`SELECT *
-            FROM chat
-            WHERE idPerson1 = $1 or idPerson2 = $1`,
+  db.query(`select * from chat
+            INNER JOIN worker
+            ON chat.idworker = worker.idworker
+            INNER JOIN person
+            ON chat.idperson2 = person.idperson
+            WHERE chat.idperson1 = $1 or chat.idperson2 = $1`,
     [idPerson], (error, results) => {
       console.log('results', results);
       if (error) {
@@ -612,7 +615,7 @@ const getRequestedServices = (request, response) => {
             INNER JOIN service
             ON worker.idservice = service.idservice
             WHERE
-            person.idperson = $1`,
+              person.idperson = $1`,
     [idperson], (error, results) => {
       console.log('results', results);
       if (error) {
