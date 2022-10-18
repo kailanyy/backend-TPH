@@ -52,6 +52,7 @@ CREATE TABLE chat(
   serviceCategory VARCHAR(45),
   idWorker INT NOT NULL,
   status VARCHAR(15),
+  creationDate TIMESTAMP,
   FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
 );
 

@@ -425,7 +425,7 @@ const createChat = (request, response) => {
     const { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, idWorker, serviceCategory, status } = request.body
     console.log('valores createChat:', { idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, idWorker, serviceCategory, status });
 
-    db.query('INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, idWorker, serviceCategory, status ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9)',
+    db.query('INSERT INTO chat ( idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, idWorker, serviceCategory, status, creationDate ) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, now())',
       [idPerson1, firstNamePerson1, lastNamePerson1, idPerson2, firstNamePerson2, lastNamePerson2, idWorker, serviceCategory, status], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Chat criado')
@@ -447,7 +447,8 @@ const getChatsByLoggedUser = (request, response) => {
             ON chat.idworker = worker.idworker
             INNER JOIN person
             ON chat.idperson2 = person.idperson
-            WHERE chat.idperson1 = $1 or chat.idperson2 = $1`,
+            WHERE chat.idperson1 = $1 or chat.idperson2 = $1
+            order by chat.status`,
     [idPerson], (error, results) => {
       console.log('results', results);
       if (error) {
@@ -600,7 +601,8 @@ const getRequestedServices = (request, response) => {
               ON chat.idworker = worker.idworker
               INNER join person
               ON chat.idperson2 = person.idperson
-              WHERE chat.idperson1 = $1 or chat.idperson2 = $1`,
+              WHERE chat.idperson1 = $1 or chat.idperson2 = $1
+              order by chat.creationdate desc`,
     [idperson], (error, results) => {
       console.log('results', results);
       if (error) {
