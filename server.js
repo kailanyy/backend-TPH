@@ -38,6 +38,7 @@ app.post('/reviews', routes.registerReview)
 app.post('/chats', routes.createChat)
 app.post('/messages', routes.sendMessage)
 app.post('/postImage', routes.postImage)
+app.post('/denounce', routes.createDenounce)
 
 app.get('/services', routes.getServices)
 app.get('/workers', routes.getWorkers)

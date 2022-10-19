@@ -72,6 +72,16 @@ CREATE TABLE workerGallery (
   FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
 );
 
+CREATE TABLE denounce (
+  idDenounce SERIAL PRIMARY KEY,
+  idWorker INT NOT NULL,
+  idPerson INT NOT NULL,
+  selectedOption VARCHAR(50),
+  description VARCHAR(300),
+  FOREIGN KEY (idWorker) REFERENCES worker (idWorker),
+  FOREIGN KEY (idPerson) REFERENCES person (idPerson)
+);
+
 insert into service(titleservice, icon) values('Eletricista', 'https://cdn-icons-png.flaticon.com/512/320/320345.png');
 insert into service(titleservice, icon) values('Jardinagem', 'https://cdn-icons-png.flaticon.com/512/2592/2592037.png');
 insert into service(titleservice, icon) values('Estética', 'https://cdn-icons-png.flaticon.com/512/3501/3501241.png');

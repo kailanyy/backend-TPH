@@ -612,6 +612,24 @@ const getRequestedServices = (request, response) => {
     })
 }
 
+const createDenounce = (request, response) => {
+  try {
+    const { idWorker, idPerson, selectedOption, description } = request.body
+
+    db.query('INSERT INTO denounce ( idWorker, idPerson, selectedOption, description ) values ($1, $2, $3, $4)',
+      [idWorker, idPerson, selectedOption, description], (error, results) => {
+        console.log('Error @ createDenounce:', error);
+        response.status(201).send('Denúncia criada')
+      }
+    )
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(500).send({
+      status: 500,
+      message: 'Erro ao criar denúncia' + error
+    })
+  }
+}
 
 module.exports = {
   registerUser,
@@ -643,5 +661,6 @@ module.exports = {
   getIfChatExists,
   cancelService,
   closeService,
-  getRequestedServices
+  getRequestedServices,
+  createDenounce
 }
