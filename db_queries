@@ -90,3 +90,33 @@ insert into service(titleservice, icon) values('Marceneiro', 'https://cdn-icons-
 insert into service(titleservice, icon) values('Babá', 'https://cdn-icons-png.flaticon.com/512/8035/8035520.png'); 
 insert into service(titleservice, icon) values('Diarista', 'https://cdn-icons-png.flaticon.com/512/1587/1587874.png');
 insert into service(titleservice, icon) values('Fisioterapeuta', 'https://cdn-icons-png.flaticon.com/512/2959/2959945.png');
+
+select messages.idmessage,
+messages.idchat,
+messages.idperson,
+messages.messageText,
+messages.messageDate,
+chat.idchat,
+chat.idperson1,
+chat.firstNamePerson1,
+chat.lastNamePerson1,
+chat.idperson2,
+chat.firstNamePerson2,
+chat.lastNamePerson2,
+chat.serviceCategory,
+chat.idworker,
+chat.status,
+chat.creationDate,
+person.firstName,
+person.lastName,
+person.email,
+person.birthDate
+from messages
+inner join chat
+on chat.idchat = messages.idchat
+inner join worker
+on chat.idworker = worker.idworker
+inner join person
+on chat.idperson2 = person.idperson
+where messages.idchat = 5
+order by messages.messagedate desc

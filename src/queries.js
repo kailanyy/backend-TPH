@@ -443,13 +443,15 @@ const createChat = (request, response) => {
 
 const getChatsByLoggedUser = (request, response) => {
   const idPerson = parseInt(request.params.id)
-  db.query(`select * from chat
+  db.query(`select DISTINCT ON (messages.idchat) * FROM messages
+            INNER JOIN chat
+            ON chat.idchat = messages.idchat
             INNER JOIN worker
             ON chat.idworker = worker.idworker
             INNER JOIN person
             ON chat.idperson2 = person.idperson
             WHERE chat.idperson1 = $1 or chat.idperson2 = $1
-            order by chat.status`,
+            ORDER BY messages.idchat, messages.messagedate desc`,
     [idPerson], (error, results) => {
       console.log('results', results);
       if (error) {
