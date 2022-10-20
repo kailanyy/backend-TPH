@@ -346,14 +346,15 @@ const getReviewsByWorker = (request, response) => {
             FROM review
             INNER JOIN worker
             ON worker.idworker = review.idworker
-            WHERE worker.idworker = $1`,
-    [idWorker], (error, results) => {
-      console.log('results', results);
-      if (error) {
-        throw error
-      }
-      response.status(200).json(results.rows)
-    })
+            WHERE worker.idworker = $1
+            ORDER BY review.datereview desc`
+  [idWorker], (error, results) => {
+    console.log('results', results);
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
 }
 
 const getAverageRating = (request, response) => {
