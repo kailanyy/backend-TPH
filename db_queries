@@ -78,6 +78,7 @@ CREATE TABLE denounce (
   idPerson INT NOT NULL,
   selectedOption VARCHAR(50),
   description VARCHAR(300),
+  denounceDate TIMESTAMP,
   FOREIGN KEY (idWorker) REFERENCES worker (idWorker),
   FOREIGN KEY (idPerson) REFERENCES person (idPerson)
 );

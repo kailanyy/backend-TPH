@@ -321,7 +321,8 @@ const getServicesReviewed = (request, response) => {
               worker.lastNameWorker,
               service.titleService,
               review.stars,
-              review.messageReview
+              review.messageReview,
+              review.dateReview
             FROM review
             INNER JOIN person
             ON person.idperson = review.idperson
@@ -329,8 +330,8 @@ const getServicesReviewed = (request, response) => {
             ON worker.idworker = review.idworker
             INNER JOIN service
             ON worker.idservice = service.idservice
-            WHERE
-            person.idperson = $1`,
+            WHERE person.idperson = $1
+            ORDER BY review.dateReview desc`,
     [idperson], (error, results) => {
       console.log('results', results);
       if (error) {
@@ -347,7 +348,7 @@ const getReviewsByWorker = (request, response) => {
             INNER JOIN worker
             ON worker.idworker = review.idworker
             WHERE worker.idworker = $1
-            ORDER BY review.datereview desc`
+            ORDER BY review.datereview desc`,
   [idWorker], (error, results) => {
     console.log('results', results);
     if (error) {
@@ -528,25 +529,25 @@ const getImageWorker = (request, response) => {
     })
 }
 
-const getIfChatExists = (request, response) => {
-  const { idPerson1 } = parseInt(request.params.id1)
-  const { idPerson2 } = parseInt(request.params.id2)
-  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', parseInt(request.params.id));
-  console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', parseInt(request.params.id2));
+// const getIfChatExists = (request, response) => {
+//   const { idPerson1 } = parseInt(request.params.id1)
+//   const { idPerson2 } = parseInt(request.params.id2)
+//   console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', parseInt(request.params.id));
+//   console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', parseInt(request.params.id2));
 
 
-  db.query(`SELECT *
-            FROM chat
-            WHERE idPerson1 = $1 or idPerson2 = $1
-            AND idPerson1 = $2 or idPerson2 = $2`,
-    [idPerson1, idPerson2], (error, results) => {
-      console.log('results', results);
-      if (error) {
-        throw error
-      }
-      response.status(200).json(results.rows)
-    })
-}
+//   db.query(`SELECT *
+//             FROM chat
+//             WHERE idPerson1 = $1 or idPerson2 = $1
+//             AND idPerson1 = $2 or idPerson2 = $2`,
+//     [idPerson1, idPerson2], (error, results) => {
+//       console.log('results', results);
+//       if (error) {
+//         throw error
+//       }
+//       response.status(200).json(results.rows)
+//     })
+// }
 
 const cancelService = (request, response) => {
   try {
@@ -617,7 +618,7 @@ const createDenounce = (request, response) => {
   try {
     const { idWorker, idPerson, selectedOption, description } = request.body
 
-    db.query('INSERT INTO denounce ( idWorker, idPerson, selectedOption, description ) values ($1, $2, $3, $4)',
+    db.query('INSERT INTO denounce ( idWorker, idPerson, selectedOption, description, denounceDate ) values ($1, $2, $3, $4, now())',
       [idWorker, idPerson, selectedOption, description], (error, results) => {
         console.log('Error @ createDenounce:', error);
         response.status(201).send('Denúncia criada')
@@ -630,6 +631,46 @@ const createDenounce = (request, response) => {
       message: 'Erro ao criar denúncia' + error
     })
   }
+}
+
+const getServicesDenounced = (request, response) => {
+  const idperson = parseInt(request.params.id)
+  db.query(`SELECT *
+            FROM denounce
+            INNER JOIN person
+            ON person.idperson = denounce.idperson
+            INNER JOIN worker
+            ON worker.idworker = denounce.idworker
+            INNER JOIN service
+            ON worker.idservice = service.idservice
+            WHERE person.idperson = $1
+            ORDER BY denounce.denouncedate desc`,
+    [idperson], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
+const getComplaintsByWorker = (request, response) => {
+  const idWorker = parseInt(request.params.id)
+  db.query(`SELECT *
+            FROM denounce
+            INNER JOIN worker
+            ON worker.idworker = denounce.idworker
+            INNER JOIN person
+            ON person.idperson = denounce.idperson
+            WHERE worker.idworker = $1
+            ORDER BY denounce.denouncedate desc`,
+  [idWorker], (error, results) => {
+    console.log('results', results);
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
 }
 
 module.exports = {
@@ -659,9 +700,11 @@ module.exports = {
   sendMessage,
   postImage,
   getImageWorker,
-  getIfChatExists,
+  // getIfChatExists,
   cancelService,
   closeService,
   getRequestedServices,
-  createDenounce
+  createDenounce,
+  getServicesDenounced,
+  getComplaintsByWorker
 }
