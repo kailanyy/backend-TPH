@@ -678,6 +678,54 @@ const getComplaintsByWorker = (request, response) => {
   })
 }
 
+const deleteDenounce = (request, response) => {
+  try {
+    const idDenounce = parseInt(request.params.id)
+
+    if (!isNaN(idDenounce)) {
+      db.query('delete from denounce where iddenounce = $1', [idDenounce],
+        (error, results) => {
+          if (error) {
+            throw error
+          } response.status(201).send('Denúncia deletada')
+        })
+
+    } else {
+      throw Error('Erro ao deletar a denúncia. ID não existe')
+
+    }
+  } catch (error) {
+    console.log(error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao deletar a denúncia.' + error
+    })
+  }
+}
+
+const denounceService = (request, response) => {
+  try {
+    const idChat = parseInt(request.params.id)
+    const { status } = request.body
+    console.log('valores updateUser: ', { status })
+
+    db.query('update chat set status = $1 where idchat = $2',
+      [status, idChat],
+      (error, results) => {
+        if (error) {
+          throw error
+        } response.status(201).send('Serviço denunciado')
+      })
+
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao denunciar o registro. ' + error
+    })
+  }
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -711,5 +759,7 @@ module.exports = {
   getRequestedServices,
   createDenounce,
   getServicesDenounced,
-  getComplaintsByWorker
+  getComplaintsByWorker,
+  deleteDenounce,
+  denounceService
 }

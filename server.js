@@ -30,6 +30,7 @@ app.put('/users/pass/:id', routes.updatePassword)
 app.put('/updateworker/:id', routes.updateProfileWorker)
 app.put('/chats/cancel/:id', routes.cancelService)
 app.put('/chats/close/:id', routes.closeService)
+app.put('/chats/denounce/:id', routes.denounceService)
 
 app.post('/registerUser', routes.registerUser)
 app.post('/registerWorker', routes.registerWorker)
@@ -60,6 +61,7 @@ app.get('/complaintsByWorker/:id', routes.getComplaintsByWorker)
 app.delete('/workers/:id', routes.deleteWorkerService)
 app.delete('/users/:id', routes.deleteUser)
 app.delete('/reviews/:id', routes.deleteReview)
+app.delete('/denounce/:id', routes.deleteDenounce)
 
 app.listen(3001, () => {
   console.log("API REST rodando em http://localhost:3001")
