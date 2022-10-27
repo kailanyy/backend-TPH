@@ -462,7 +462,13 @@ const getChatsByLoggedUser = (request, response) => {
 
 const getMessages = (request, response) => {
   const idChat = parseInt(request.params.id)
-  db.query(`SELECT *
+  db.query(`SELECT
+                idMessage,
+                idChat,
+                idPerson,
+                messageText,
+                messageDate,
+                to_char(messageDate,'HH24:MI') as hour
             FROM messages
             WHERE idChat = $1
             ORDER BY messageDate asc`,
