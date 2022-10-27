@@ -53,7 +53,7 @@ app.get('/averageRatingByWorker/:id', routes.getAverageRating)
 app.get('/chats/:id', routes.getChatsByLoggedUser)
 app.get('/messages/:id', routes.getMessages)
 app.get('/getImageWorker/:id', routes.getImageWorker)
-// app.get('/chats/:id1/:id2', routes.getIfChatExists)
+app.get('/chats/:id/:id2', routes.getIfChatExists)
 app.get('/getRequestedServices/:id', routes.getRequestedServices)
 app.get('/complaintsByWorker/:id', routes.getComplaintsByWorker)
 
