@@ -24,9 +24,7 @@ CREATE TABLE worker(
   priceService NUMERIC,
   city VARCHAR(25),
   localization CHAR(2),
-  whatsapp VARCHAR(100),
-  FOREIGN KEY (idPerson) REFERENCES person (idPerson),
-  FOREIGN KEY (idService) REFERENCES service (idService)
+  whatsapp VARCHAR(100)
 );
 
 CREATE TABLE review(
@@ -37,9 +35,7 @@ CREATE TABLE review(
   lastNamePerson VARCHAR(45),
   messageReview VARCHAR(245),
   stars int,
-  dateReview TIMESTAMP,
-  FOREIGN KEY (idPerson) REFERENCES person (idPerson),
-  FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
+  dateReview TIMESTAMP
 );
 
 CREATE TABLE chat(
@@ -53,8 +49,7 @@ CREATE TABLE chat(
   serviceCategory VARCHAR(45),
   idWorker INT NOT NULL,
   status VARCHAR(15),
-  creationDate TIMESTAMP,
-  FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
+  creationDate TIMESTAMP
 );
 
 CREATE TABLE messages(
@@ -68,8 +63,7 @@ CREATE TABLE messages(
 CREATE TABLE workerGallery (
   idImage SERIAL PRIMARY KEY ,
   idWorker INT NOT NULL,
-  img VARCHAR(500), 
-  FOREIGN KEY (idWorker) REFERENCES worker (idWorker)
+  img VARCHAR(500)
 );
 
 CREATE TABLE denounce (
@@ -78,10 +72,8 @@ CREATE TABLE denounce (
   idPerson INT NOT NULL,
   selectedOption VARCHAR(50),
   description VARCHAR(300),
-  denounceDate TIMESTAMP,
-  FOREIGN KEY (idWorker) REFERENCES worker (idWorker),
-  FOREIGN KEY (idPerson) REFERENCES person (idPerson)
-);
+  denounceDate TIMESTAMP
+);  
 
 insert into service(titleservice, icon) values('Eletricista', 'https://cdn-icons-png.flaticon.com/512/320/320345.png');
 insert into service(titleservice, icon) values('Jardinagem', 'https://cdn-icons-png.flaticon.com/512/2592/2592037.png');

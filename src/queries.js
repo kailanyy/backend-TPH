@@ -210,8 +210,14 @@ const deleteUser = (request, response) => {
     const idPerson = parseInt(request.params.id)
 
     if (!isNaN(idPerson)) {
-      db.query('delete from person where idperson = $1', [idPerson],
-        (error, results) => {
+      db.query(`BEGIN;
+                  DELETE FROM person WHERE idperson = 1;
+                  DELETE FROM worker WHERE idperson = 1;
+                  DELETE FROM chat WHERE idperson1 = 1 or idperson2 = 1;
+                  DELETE FROM review WHERE idperson = 1;
+                  DELETE FROM denounce WHERE idperson = 1;
+                COMMIT;`,
+      [idPerson], (error, results) => {
           if (error) {
             throw error
           } response.status(201).send('Usuário deletado')
@@ -349,13 +355,13 @@ const getReviewsByWorker = (request, response) => {
             ON worker.idworker = review.idworker
             WHERE worker.idworker = $1
             ORDER BY review.datereview desc`,
-  [idWorker], (error, results) => {
-    console.log('results', results);
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
+    [idWorker], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
 }
 
 const getAverageRating = (request, response) => {
@@ -669,13 +675,13 @@ const getComplaintsByWorker = (request, response) => {
             ON person.idperson = denounce.idperson
             WHERE worker.idworker = $1
             ORDER BY denounce.denouncedate desc`,
-  [idWorker], (error, results) => {
-    console.log('results', results);
-    if (error) {
-      throw error
-    }
-    response.status(200).json(results.rows)
-  })
+    [idWorker], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
 }
 
 const deleteDenounce = (request, response) => {
