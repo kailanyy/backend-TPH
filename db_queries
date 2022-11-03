@@ -1,78 +1,78 @@
 CREATE TABLE person (
-  idPerson SERIAL PRIMARY KEY,
-  firstName VARCHAR(45),
-  lastName VARCHAR(45),
-  email VARCHAR(45) NOT NULL,
-  birthDate DATE NOT NULL,
-  pass VARCHAR(45) NOT NULL
+ idPerson SERIAL PRIMARY KEY,
+ firstName VARCHAR(45),
+ lastName VARCHAR(45),
+ email VARCHAR(45) NOT NULL,
+ birthDate DATE NOT NULL,
+ pass VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE service(
-  idService SERIAL PRIMARY KEY,
-  titleService VARCHAR(25),
-  icon VARCHAR(300)
+ idService SERIAL PRIMARY KEY,
+ titleService VARCHAR(25),
+ icon VARCHAR(300)
 );
 
 CREATE TABLE worker(
-  idWorker SERIAL PRIMARY KEY,
-  idPerson INT NOT NULL,
-  idService INT NOT NULL,
-  firstNameWorker VARCHAR(45),
-  lastNameWorker VARCHAR(45),
-  descriptionService VARCHAR(300),
-  phoneNumber VARCHAR(45),
-  priceService NUMERIC,
-  city VARCHAR(25),
-  localization CHAR(2),
-  whatsapp VARCHAR(100)
+ idWorker SERIAL PRIMARY KEY,
+ idPerson INT NOT NULL,
+ idService INT NOT NULL,
+ firstNameWorker VARCHAR(45),
+ lastNameWorker VARCHAR(45),
+ descriptionService VARCHAR(300),
+ phoneNumber VARCHAR(45),
+ priceService NUMERIC,
+ city VARCHAR(25),
+ localization CHAR(2),
+ whatsapp VARCHAR(100)
 );
 
 CREATE TABLE review(
-  idReview SERIAL PRIMARY KEY,
-  idPerson INT NOT NULL,
-  idWorker INT NOT NULL,
-  firstNamePerson VARCHAR(45),
-  lastNamePerson VARCHAR(45),
-  messageReview VARCHAR(245),
-  stars int,
-  dateReview TIMESTAMP
+ idReview SERIAL PRIMARY KEY,
+ idPerson INT NOT NULL,
+ idWorker INT NOT NULL,
+ firstNamePerson VARCHAR(45),
+ lastNamePerson VARCHAR(45),
+ messageReview VARCHAR(245),
+ stars int,
+ dateReview TIMESTAMP
 );
 
 CREATE TABLE chat(
-  idChat SERIAL PRIMARY KEY,
-  idPerson1 INT,
-  firstNamePerson1 VARCHAR(45),
-  lastNamePerson1 VARCHAR(45),
-  idPerson2 INT,
-  firstNamePerson2 VARCHAR(45),
-  lastNamePerson2 VARCHAR(45),
-  serviceCategory VARCHAR(45),
-  idWorker INT NOT NULL,
-  status VARCHAR(15),
-  creationDate TIMESTAMP
+ idChat SERIAL PRIMARY KEY,
+ idPerson1 INT,
+ firstNamePerson1 VARCHAR(45),
+ lastNamePerson1 VARCHAR(45),
+ idPerson2 INT,
+ firstNamePerson2 VARCHAR(45),
+ lastNamePerson2 VARCHAR(45),
+ serviceCategory VARCHAR(45),
+ idWorker INT NOT NULL,
+ status VARCHAR(15),
+ creationDate TIMESTAMP
 );
 
 CREATE TABLE messages(
-  idMessage SERIAL PRIMARY KEY,
-  idChat INT,
-  idPerson INT,
-  messageText VARCHAR(250),
-  messageDate TIMESTAMP
+ idMessage SERIAL PRIMARY KEY,
+ idChat INT,
+ idPerson INT,
+ messageText VARCHAR(250),
+ messageDate TIMESTAMP
 );
 
 CREATE TABLE workerGallery (
-  idImage SERIAL PRIMARY KEY ,
-  idWorker INT NOT NULL,
-  img VARCHAR(500)
+ idImage SERIAL PRIMARY KEY ,
+ idWorker INT NOT NULL,
+ img VARCHAR(500)
 );
 
 CREATE TABLE denounce (
-  idDenounce SERIAL PRIMARY KEY,
-  idWorker INT NOT NULL,
-  idPerson INT NOT NULL,
-  selectedOption VARCHAR(50),
-  description VARCHAR(300),
-  denounceDate TIMESTAMP
+ idDenounce SERIAL PRIMARY KEY,
+ idWorker INT NOT NULL,
+ idPerson INT NOT NULL,
+ selectedOption VARCHAR(50),
+ description VARCHAR(300),
+ denounceDate TIMESTAMP
 );  
 
 insert into service(titleservice, icon) values('Eletricista', 'https://cdn-icons-png.flaticon.com/512/320/320345.png');
@@ -83,3 +83,35 @@ insert into service(titleservice, icon) values('Marceneiro', 'https://cdn-icons-
 insert into service(titleservice, icon) values('Babá', 'https://cdn-icons-png.flaticon.com/512/8035/8035520.png'); 
 insert into service(titleservice, icon) values('Diarista', 'https://cdn-icons-png.flaticon.com/512/1587/1587874.png');
 insert into service(titleservice, icon) values('Fisioterapeuta', 'https://cdn-icons-png.flaticon.com/512/2959/2959945.png');
+
+insert into person(firstName, lastName, email, birthDate, pass) values('João','Silva','joaosilva@gmail.com','19/04/2001','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Maria','Silva','mariasilva@gmail.com','18/02/1999','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Ana','Machado','ana@gmail.com','19/09/2000','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Julia','Silva','juliasilva@gmail.com','19/04/2001','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Matheus','Lopes','matheuslopes@gmail.com','19/04/2001','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Sofia','Freitas','sofiafreitas@gmail.com','19/06/1997','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Danilo','Moura','danilo@gmail.com','09/01/2000','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Carolina','da Cunha','carolinacunha@gmail.com','05/05/1900','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Larissa','Barbosa','larissabarbosa@gmail.com','15/12/2000','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Mirella','Moreira','mirellamoreira@gmail.com','10/12/1980','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Agatha','Sales','agathasales@gmail.com','18/01/2000','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Sophie','Moura','sophiemoura@gmail.com','10/10/1979','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Evelyn','Campos','evelyncampos@gmail.com','01/06/2000','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Luiz','Miguel','luizmiguel@gmail.com','12/03/1987','amora123');
+insert into person(firstName, lastName, email, birthDate, pass) values('Stephany','Duarte','stephanyduarte@gmail.com','02/03/1987','amora123');
+
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('João','Silva','Phasellus rhoncus auctor nibh, condimentum orci.','(48) 12345-6789',250,'Afonso Claúdio','ES',1,1);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Larissa','Barbosa','Donec et hendrerit augue. Nullam a tincidunt velit. In sit amet purus quam. Duis feugiat volutpat faucibus. Mauris sollicitudin.','(48) 12345-6789',794,'Caapiranga','AM',1,9);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Mirella','Moreira','Donec et hendrerit augue. Nullam a tincidunt velit. In sit amet purus quam. Duis feugiat volutpat faucibus. Mauris sollicitudin.','(48) 12345-6789',794,'Caapiranga','AM',1,10);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Maria','Silva','Vestibulum venenatis eros nisl, vitae aliquam sem faucibus eget. Donec eu mi mattis, mattis velit ac, interdum ipsum. Sed lectus nibh, tincidunt nec diam ut.','(48) 12345-6789',550,'Florianópolis','SC',2,2);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Agatha','Sales','Cras ut odio ut metus maximus dictum ut eu mauris. Quisque molestie posuere ipsum, non scelerisque tortor vestibulum ut. Nulla ultricies tempor ante vel mattis.','(48) 12345-6789',794,'Caapiranga','AM',2,11);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Sophie','Moura','Cras ut odio ut metus maximus dictum ut eu mauris. Quisque molestie posuere ipsum, non scelerisque tortor vestibulum ut. Nulla ultricies tempor ante vel mattis.','(48) 12345-6789',794,'Caapiranga','AM',3,12);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Ana','Machado','Vestibulum venenatis eros nisl, vitae aliquam sem faucibus eget. Donec eu mi mattis, mattis velit ac, interdum ipsum. Sed lectus nibh, tincidunt nec diam ut.','(48) 12345-6789',50,'Florianópolis','SC',3,3);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Evelyn','Campos','Cras ut odio ut metus maximus dictum ut eu mauris. Quisque molestie posuere ipsum, non scelerisque tortor vestibulum ut. Nulla ultricies tempor ante vel mattis.','(48) 12345-6789',794,'Caapiranga','AM',4,13);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Julia','Silva','Ut cursus, quam a finibus facilisis, velit risus feugiat velit, quis tincidunt nisi nisi vitae sem. Aliquam mollis lorem vel nisi rhoncus, imperdiet porttitor augue gravida. Quisque molestie posuere ipsum, non scelerisque tortor vestibulum ut. Nulla ultricies tempor ante vel mattis.','(48) 12345-6789',770,'Caapiranga','AM',4,4);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Matheus','Lopes','Ut cursus, quam a finibus facilisis, velit risus feugiat velit, quis tincidunt nisi nisi vitae sem. Aliquam mollis lorem vel nisi rhoncus, imperdiet porttitor augue gravida. Quisque molestie posuere ipsum, non scelerisque tortor vestibulum ut. Nulla ultricies tempor ante vel mattis.','(48) 12345-6789',794,'Caapiranga','AM',5,6);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Sofia','Freitas','Cras ut odio ut metus maximus dictum ut eu mauris. Quisque molestie posuere ipsum, non scelerisque tortor vestibulum ut. Nulla ultricies tempor ante vel mattis.','(48) 12345-6789',794,'Caapiranga','AM',8,6);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Danilo','Moura','Cras ut odio ut metus maximus dictum ut eu mauris. Quisque molestie posuere ipsum, non scelerisque tortor vestibulum ut. Nulla ultricies tempor ante vel mattis.','(48) 12345-6789',794,'Caapiranga','AM',7,7);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Carolina','da Cunha','Cras ut odio ut metus maximus dictum ut eu mauris. Quisque molestie posuere ipsum, non scelerisque tortor vestibulum ut. Nulla ultricies tempor ante vel mattis.','(48) 12345-6789',794,'Caapiranga','AM',8,8);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Luiz','Miguel','Cras ut odio ut metus maximus dictum ut eu mauris. Quisque molestie posuere ipsum, non scelerisque tortor vestibulum ut. Nulla ultricies tempor ante vel mattis.','(48) 12345-6789',794,'Caapiranga','AM',6,14);
+insert into worker(firstNameWorker, lastNameWorker, descriptionService, phoneNumber, priceService, city, localization, idService, idPerson) values('Stephany','Duarte','Cras ut odio ut metus maximus dictum ut eu mauris. Quisque molestie posuere ipsum, non scelerisque tortor vestibulum ut. Nulla ultricies tempor ante vel mattis.','(48) 12345-6789',794,'Caapiranga','AM',6,16);
