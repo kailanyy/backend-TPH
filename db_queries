@@ -4,7 +4,8 @@ CREATE TABLE person (
  lastName VARCHAR(45),
  email VARCHAR(45) NOT NULL,
  birthDate DATE NOT NULL,
- pass VARCHAR(45) NOT NULL
+ pass VARCHAR(45) NOT NULL,
+ profilePicture VARCHAR(500)
 );
 
 CREATE TABLE service(
