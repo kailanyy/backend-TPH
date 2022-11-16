@@ -217,7 +217,7 @@ const deleteUser = (request, response) => {
                   DELETE FROM review WHERE idperson = 1;
                   DELETE FROM denounce WHERE idperson = 1;
                 COMMIT;`,
-      [idPerson], (error, results) => {
+        [idPerson], (error, results) => {
           if (error) {
             throw error
           } response.status(201).send('Usuário deletado')
@@ -528,7 +528,7 @@ const postImage = (request, response) => {
 const getImageWorker = (request, response) => {
   const idworker = parseInt(request.params.id)
 
-  db.query(`SELECT img
+  db.query(`SELECT img, idimage
             FROM workergallery
             INNER JOIN worker
             ON workergallery.idworker = worker.idworker
@@ -732,6 +732,23 @@ const denounceService = (request, response) => {
   }
 }
 
+const deleteCarouselImage = (request, response) => {
+  try {
+    db.query('DELETE FROM workergallery WHERE idworker = $1 and idimage = $2',
+      [idworker, idimage], (error, results) => {
+        console.log('Error', error);
+        response.status(201).send('Imagem removida com sucesso!')
+      }
+    )
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(400).send({
+      status: 400,
+      message: 'Erro ao remover imagem. ' + error
+    })
+  }
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -767,5 +784,6 @@ module.exports = {
   getServicesDenounced,
   getComplaintsByWorker,
   deleteDenounce,
-  denounceService
+  denounceService,
+  deleteCarouselImage
 }
