@@ -606,25 +606,6 @@ const closeService = (request, response) => {
   }
 }
 
-
-const getRequestedServices = (request, response) => {
-  const idperson = parseInt(request.params.id)
-  db.query(`SELECT * from chat
-              INNER join worker
-              ON chat.idworker = worker.idworker
-              INNER join person
-              ON chat.idperson2 = person.idperson
-              WHERE chat.idperson1 = $1 or chat.idperson2 = $1
-              order by chat.creationdate desc`,
-    [idperson], (error, results) => {
-      console.log('results', results);
-      if (error) {
-        throw error
-      }
-      response.status(200).json(results.rows)
-    })
-}
-
 const createDenounce = (request, response) => {
   try {
     const { idWorker, idPerson, selectedOption, description } = request.body
@@ -749,6 +730,42 @@ const deleteCarouselImage = (request, response) => {
   }
 }
 
+const getRequestedServicesByUser = (request, response) => {
+  const idperson = parseInt(request.params.id)
+  db.query(`SELECT * from chat
+              INNER join worker
+              ON chat.idworker = worker.idworker
+              INNER join person
+              ON chat.idperson2 = person.idperson
+              WHERE chat.idperson1 = $1
+              order by chat.creationdate desc`,
+    [idperson], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
+const getRequestedServicesForUser = (request, response) => {
+  const idperson = parseInt(request.params.id)
+  db.query(`SELECT * from chat
+              INNER join worker
+              ON chat.idworker = worker.idworker
+              INNER join person
+              ON chat.idperson2 = person.idperson
+              WHERE chat.idperson2 = $1
+              order by chat.creationdate desc`,
+    [idperson], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -779,11 +796,12 @@ module.exports = {
   getIfChatExists,
   cancelService,
   closeService,
-  getRequestedServices,
   createDenounce,
   getServicesDenounced,
   getComplaintsByWorker,
   deleteDenounce,
   denounceService,
-  deleteCarouselImage
+  deleteCarouselImage,
+  getRequestedServicesByUser,
+  getRequestedServicesForUser
 }
