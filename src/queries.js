@@ -5,7 +5,7 @@ const db = new Pool({
   host: 'localhost',
   database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'senai',
+  password: '123',
   port: 5432
 })
 
@@ -715,8 +715,12 @@ const denounceService = (request, response) => {
 
 const deleteCarouselImage = (request, response) => {
   try {
-    db.query('DELETE FROM workergallery WHERE idworker = $1 and idimage = $2',
-      [idworker, idimage], (error, results) => {
+    const id = parseInt(request.params.id)
+
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', id);
+    console.log('aaaaasdadsddsdadasdasdasdsadadsdadadsadas',request.params.id);
+    db.query('DELETE FROM workergallery WHERE idImage = $1',
+      [id], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Imagem removida com sucesso!')
       }
