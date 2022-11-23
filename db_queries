@@ -76,6 +76,12 @@ CREATE TABLE denounce (
  denounceDate TIMESTAMP
 );  
 
+CREATE TABLE profileImage (
+ idImage SERIAL PRIMARY KEY ,
+ idPerson INT NOT NULL,
+ img VARCHAR(500)
+);
+
 insert into service(titleservice, icon) values('Eletricista', 'https://cdn-icons-png.flaticon.com/512/320/320345.png');
 insert into service(titleservice, icon) values('Jardinagem', 'https://cdn-icons-png.flaticon.com/512/2592/2592037.png');
 insert into service(titleservice, icon) values('Estética', 'https://cdn-icons-png.flaticon.com/512/3501/3501241.png');

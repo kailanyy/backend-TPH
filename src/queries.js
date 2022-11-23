@@ -716,9 +716,6 @@ const denounceService = (request, response) => {
 const deleteCarouselImage = (request, response) => {
   try {
     const id = parseInt(request.params.id)
-
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', id);
-    console.log('aaaaasdadsddsdadasdasdasdsadadsdadadsadas',request.params.id);
     db.query('DELETE FROM workergallery WHERE idImage = $1',
       [id], (error, results) => {
         console.log('Error', error);
@@ -770,6 +767,24 @@ const getRequestedServicesForUser = (request, response) => {
     })
 }
 
+const profileImage = (request, response) => {
+  try {
+    const { idPerson, img } = request.body
+    db.query('INSERT INTO profileImage ( idPerson, img ) values ($1, $2)',
+      [idPerson, img], (error, results) => {
+        console.log('Error @ profileImage:', error);
+        response.status(201).send('Imagem Publicada')
+      }
+    )
+  } catch (error) {
+    console.log('Erro: ' + error);
+    response.status(500).send({
+      status: 500,
+      message: 'Erro ao publicar imagem' + error
+    })
+  }
+}
+
 module.exports = {
   registerUser,
   authenticate,
@@ -807,5 +822,6 @@ module.exports = {
   denounceService,
   deleteCarouselImage,
   getRequestedServicesByUser,
-  getRequestedServicesForUser
+  getRequestedServicesForUser,
+  profileImage
 }
