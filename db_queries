@@ -25,7 +25,8 @@ CREATE TABLE worker(
  priceService NUMERIC,
  city VARCHAR(25),
  localization CHAR(2),
- whatsapp VARCHAR(100)
+ whatsapp VARCHAR(100),
+ profilePicture VARCHAR(500)
 );
 
 CREATE TABLE review(

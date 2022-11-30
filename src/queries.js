@@ -275,6 +275,7 @@ const workersByCategory = (request, response) => {
                 worker.city,
                 worker.localization,
                 worker.whatsapp,
+                person.profilePicture,
                 avg(review.stars)
                 FROM worker
                 INNER JOIN service
@@ -770,7 +771,7 @@ const getRequestedServicesForUser = (request, response) => {
 const profileImage = (request, response) => {
   try {
     const { idPerson, img } = request.body
-    db.query('INSERT INTO profileImage ( idPerson, img ) values ($1, $2)',
+    db.query('UPDATE person SET profilepicture = $2 where idPerson = $1',
       [idPerson, img], (error, results) => {
         console.log('Error @ profileImage:', error);
         response.status(201).send('Imagem Publicada')
@@ -783,6 +784,21 @@ const profileImage = (request, response) => {
       message: 'Erro ao publicar imagem' + error
     })
   }
+}
+
+const updateUser = (request, response) => {
+  const idperson = parseInt(request.params.id)
+  db.query(`SELECT *
+            FROM person
+            WHERE idperson = $1
+            `,
+    [idperson], (error, results) => {
+      console.log('results', results);
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
 }
 
 module.exports = {
@@ -823,5 +839,6 @@ module.exports = {
   deleteCarouselImage,
   getRequestedServicesByUser,
   getRequestedServicesForUser,
-  profileImage
+  profileImage,
+  updateUser
 }

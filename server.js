@@ -59,6 +59,7 @@ app.get('/chats/:id/:id2', routes.getIfChatExists)
 app.get('/complaintsByWorker/:id', routes.getComplaintsByWorker)
 app.get('/requestedServicesByUser/:id', routes.getRequestedServicesByUser)
 app.get('/requestedServicesForUser/:id', routes.getRequestedServicesForUser)
+app.get('/updateUser/:id', routes.updateUser)
 
 app.delete('/workers/:id', routes.deleteWorkerService)
 app.delete('/users/:id', routes.deleteUser)
