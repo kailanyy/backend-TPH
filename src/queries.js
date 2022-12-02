@@ -354,6 +354,8 @@ const getReviewsByWorker = (request, response) => {
             FROM review
             INNER JOIN worker
             ON worker.idworker = review.idworker
+            INNER JOIN person
+            ON person.idperson = review.idperson
             WHERE worker.idworker = $1
             ORDER BY review.datereview desc`,
     [idWorker], (error, results) => {

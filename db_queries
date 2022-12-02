@@ -37,7 +37,8 @@ CREATE TABLE review(
  lastNamePerson VARCHAR(45),
  messageReview VARCHAR(245),
  stars int,
- dateReview TIMESTAMP
+ dateReview TIMESTAMP,
+ profilePicture VARCHAR(500)
 );
 
 CREATE TABLE chat(
