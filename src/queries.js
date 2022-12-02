@@ -453,13 +453,27 @@ const createChat = (request, response) => {
 
 const getChatsByLoggedUser = (request, response) => {
   const idPerson = parseInt(request.params.id)
-  db.query(`select * from chat
+  db.query(`SELECT 
+            idChat,
+            idPerson1,
+            firstNamePerson1,
+            lastNamePerson1,
+            idPerson2,
+            firstNamePerson2,
+            lastNamePerson2,
+            serviceCategory,
+            chat.idWorker,
+            status,
+            creationDate,
+            person.profilePicture,
+            person.birthdate
+            FROM chat
             INNER JOIN worker
             ON chat.idworker = worker.idworker
             INNER JOIN person
             ON chat.idperson2 = person.idperson
             WHERE chat.idperson1 = $1 or chat.idperson2 = $1
-            order by chat.status`,
+            ORDER BY chat.status`,
     [idPerson], (error, results) => {
       console.log('results', results);
       if (error) {
