@@ -2,11 +2,11 @@ const { response, request } = require('express')
 
 const Pool = require('pg').Pool
 const db = new Pool({
-  host: 'localhost',
-  database: 'ThePurpleHouse-DB',
+  host: 'containers-us-west-91.railway.app',
+  database: 'railway',
   user: 'postgres',
-  password: '123',
-  port: 5432
+  password: 'ThnOPJxVGPvD7pgHghdJ',
+  port: 5775
 })
 
 const registerUser = (request, response) => {
