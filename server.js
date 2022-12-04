@@ -5,6 +5,7 @@ const routes = require('./src/queries')
 const cors = require('cors');
 const fs = require('fs');
 const { verify } = require('crypto');
+const port = process.env.PORT || 3001
 
 app.use(cors())
 app.use(bodyParser.json());
@@ -67,6 +68,6 @@ app.delete('/reviews/:id', routes.deleteReview)
 app.delete('/denounce/:id', routes.deleteDenounce)
 app.delete('/deleteCarouselImage/:id', routes.deleteCarouselImage)
 
-app.listen(3001, () => {
+app.listen(port, () => {
   console.log("API REST rodando em http://localhost:3001")
 })
