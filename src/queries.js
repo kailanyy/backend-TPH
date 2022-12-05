@@ -217,15 +217,16 @@ const updatePassword = (request, response) => {
 const deleteUser = (request, response) => {
   try {
     const idPerson = parseInt(request.params.id)
+    console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@',request.params.id);
 
     if (!isNaN(idPerson)) {
-      db.query(`BEGIN;
-                  DELETE FROM person WHERE idperson = 1;
-                  DELETE FROM worker WHERE idperson = 1;
-                  DELETE FROM chat WHERE idperson1 = 1 or idperson2 = 1;
-                  DELETE FROM review WHERE idperson = 1;
-                  DELETE FROM denounce WHERE idperson = 1;
-                COMMIT;`,
+      db.query(`
+                DELETE FROM person WHERE idperson = $1;
+                DELETE FROM worker WHERE idperson = $1;
+                DELETE FROM chat WHERE idperson1 = $1 or idperson2 = $1;
+                DELETE FROM review WHERE idperson = $1;
+                DELETE FROM denounce WHERE idperson = $1;
+                `,
         [idPerson], (error, results) => {
           if (error) {
             throw error
