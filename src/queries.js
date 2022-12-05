@@ -475,6 +475,7 @@ const getChatsByLoggedUser = (request, response) => {
             chat.creationDate,
             person.profilePicture,
             person.birthdate,
+            person.email,
             worker.descriptionService,
             worker.phoneNumber,
             worker.priceService,
