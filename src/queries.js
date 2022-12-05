@@ -1,12 +1,21 @@
 const { response, request } = require('express')
 
+// const Pool = require('pg').Pool
+// const db = new Pool({
+//   host: 'localhost',
+//   database: 'ThePurpleHouse-DB',
+//   user: 'postgres',
+//   password: '123',
+//   port: 5432
+// })
+
 const Pool = require('pg').Pool
 const db = new Pool({
-  host: 'localhost',
-  database: 'ThePurpleHouse-DB',
+  host: 'containers-us-west-91.railway.app',
+  database: 'railway',
   user: 'postgres',
-  password: '123',
-  port: 5432
+  password: 'ThnOPJxVGPvD7pgHghdJ',
+  port: 5775
 })
 
 const registerUser = (request, response) => {
@@ -453,19 +462,25 @@ const createChat = (request, response) => {
 const getChatsByLoggedUser = (request, response) => {
   const idPerson = parseInt(request.params.id)
   db.query(`SELECT 
-            idChat,
-            idPerson1,
-            firstNamePerson1,
-            lastNamePerson1,
-            idPerson2,
-            firstNamePerson2,
-            lastNamePerson2,
-            serviceCategory,
+            chat.idChat,
+            chat.idPerson1,
+            chat.firstNamePerson1,
+            chat.lastNamePerson1,
+            chat.idPerson2,
+            chat.firstNamePerson2,
+            chat.lastNamePerson2,
+            chat.serviceCategory,
             chat.idWorker,
-            status,
-            creationDate,
+            chat.status,
+            chat.creationDate,
             person.profilePicture,
-            person.birthdate
+            person.birthdate,
+            worker.descriptionService,
+            worker.phoneNumber,
+            worker.priceService,
+            worker.city,
+            worker.localization,
+            worker.whatsapp
             FROM chat
             INNER JOIN worker
             ON chat.idworker = worker.idworker
