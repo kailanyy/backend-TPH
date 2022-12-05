@@ -2,11 +2,11 @@ const { response, request } = require('express')
 
 const Pool = require('pg').Pool
 const db = new Pool({
-  host: 'containers-us-west-91.railway.app',
-  database: 'railway',
+  host: 'localhost',
+  database: 'ThePurpleHouse-DB',
   user: 'postgres',
-  password: 'ThnOPJxVGPvD7pgHghdJ',
-  port: 5775
+  password: '123',
+  port: 5432
 })
 
 const registerUser = (request, response) => {
@@ -211,12 +211,12 @@ const deleteUser = (request, response) => {
 
     if (!isNaN(idPerson)) {
       db.query(`BEGIN;
-                  DELETE FROM person WHERE idperson = $1;
-                  DELETE FROM worker WHERE idperson = $1;
-                  DELETE FROM chat WHERE idperson1 = $1 or idperson2 = $1;
-                  DELETE FROM review WHERE idperson = $1;
-                  DELETE FROM denounce WHERE idperson = $1;
-                COMMIT`,
+                  DELETE FROM person WHERE idperson = 1;
+                  DELETE FROM worker WHERE idperson = 1;
+                  DELETE FROM chat WHERE idperson1 = 1 or idperson2 = 1;
+                  DELETE FROM review WHERE idperson = 1;
+                  DELETE FROM denounce WHERE idperson = 1;
+                COMMIT;`,
         [idPerson], (error, results) => {
           if (error) {
             throw error
@@ -225,7 +225,6 @@ const deleteUser = (request, response) => {
 
     } else {
       throw Error('Erro ao deletar o usuário. ID não existe')
-
     }
   } catch (error) {
     console.log(error);
@@ -453,7 +452,21 @@ const createChat = (request, response) => {
 
 const getChatsByLoggedUser = (request, response) => {
   const idPerson = parseInt(request.params.id)
-  db.query(`SELECT * FROM chat
+  db.query(`SELECT 
+            idChat,
+            idPerson1,
+            firstNamePerson1,
+            lastNamePerson1,
+            idPerson2,
+            firstNamePerson2,
+            lastNamePerson2,
+            serviceCategory,
+            chat.idWorker,
+            status,
+            creationDate,
+            person.profilePicture,
+            person.birthdate
+            FROM chat
             INNER JOIN worker
             ON chat.idworker = worker.idworker
             INNER JOIN person
