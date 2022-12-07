@@ -333,15 +333,16 @@ const getServicesReviewed = (request, response) => {
               service.titleService,
               review.stars,
               review.messageReview,
-              review.dateReview
+              review.dateReview,
+              person.profilePicture
             FROM review
-            INNER JOIN person
-            ON person.idperson = review.idperson
             INNER JOIN worker
             ON worker.idworker = review.idworker
+            INNER JOIN person
+            ON person.idperson = worker.idperson
             INNER JOIN service
             ON worker.idservice = service.idservice
-            WHERE person.idperson = $1
+            WHERE review.idperson = $1
             ORDER BY review.dateReview desc`,
     [idperson], (error, results) => {
       console.log('results', results);
@@ -520,7 +521,7 @@ const sendMessage = (request, response) => {
     const { idChat, idPerson, messageText } = request.body
     console.log('valores messagem:', { idChat, idPerson, messageText });
 
-    db.query('INSERT INTO messages ( idChat, idPerson, messageText, messageDate ) values ($1, $2, $3, now())',
+    db.query('INSERT INTO messages ( idChat, idPerson, messageText, messageDate ) values ($1, $2, $3, localtimestamp)',
       [idChat, idPerson, messageText], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Mensagem enviada')
@@ -654,13 +655,13 @@ const getServicesDenounced = (request, response) => {
   const idperson = parseInt(request.params.id)
   db.query(`SELECT *
             FROM denounce
-            INNER JOIN person
-            ON person.idperson = denounce.idperson
             INNER JOIN worker
             ON worker.idworker = denounce.idworker
+            INNER JOIN person
+            ON person.idperson = worker.idperson
             INNER JOIN service
             ON worker.idservice = service.idservice
-            WHERE person.idperson = $1
+            WHERE denounce.idperson = $1
             ORDER BY denounce.denouncedate desc`,
     [idperson], (error, results) => {
       console.log('results', results);
