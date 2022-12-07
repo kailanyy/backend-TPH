@@ -521,7 +521,7 @@ const sendMessage = (request, response) => {
     const { idChat, idPerson, messageText } = request.body
     console.log('valores messagem:', { idChat, idPerson, messageText });
 
-    db.query('INSERT INTO messages ( idChat, idPerson, messageText, messageDate ) values ($1, $2, $3, localtimestamp)',
+    db.query('INSERT INTO messages ( idChat, idPerson, messageText, messageDate ) values ($1, $2, $3, now())',
       [idChat, idPerson, messageText], (error, results) => {
         console.log('Error', error);
         response.status(201).send('Mensagem enviada')
